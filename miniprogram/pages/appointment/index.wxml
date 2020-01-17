@@ -1,0 +1,6 @@
+<!--miniprogram/pages/appointment.wxml-->
+<view>
+  <view class="scan" bindtap="scan">
+    <view class="scan-text">点击扫码预约</view>
+  </view>
+</view>

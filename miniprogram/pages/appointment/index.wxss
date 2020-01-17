@@ -1,0 +1,13 @@
+/* miniprogram/pages/appointment.wxss */
+.scan-box {
+
+}
+.scan {
+  margin: 30% auto;
+  border: 1rpx solid #d9d9d9;
+  border-radius: 4px;
+  width: 60%;
+  height: 300rpx;
+  text-align: center;
+  line-height: 300rpx;
+}

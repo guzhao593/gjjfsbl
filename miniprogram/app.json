@@ -1,0 +1,32 @@
+{
+  "pages": [
+    "pages/appointment/index",
+    "pages/orderList/index",
+    "pages/goods/index",
+    "pages/user/index",
+    "pages/cart/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/appointment/index",
+        "text": "预约中心"
+      },
+      {
+        "pagePath": "pages/orderList/index",
+        "text": "订单中心"
+      },
+      {
+        "pagePath": "pages/user/index",
+        "text": "个人中心"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}
