@@ -19,10 +19,11 @@
 			"ignore": [],
 			"disablePlugins": [],
 			"outputPath": ""
-		}
+		},
+		"nodeModules": true
 	},
 	"appid": "wx803dbaf7ff67e7fd",
-	"projectname": "%E5%A4%A9%E6%98%8E%E7%9A%84%E7%AA%9D",
+	"projectname": "%E5%B7%A5%E5%8C%A0%E5%AE%B6%E9%98%B2%E6%B0%B4%E8%A1%A5%E6%BC%8F",
 	"libVersion": "2.8.1",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},

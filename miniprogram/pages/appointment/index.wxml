@@ -1,6 +1,7 @@
 <!--miniprogram/pages/appointment.wxml-->
 <view>
   <view class="scan" bindtap="scan">
+    <van-icon name="scan" style="font-size: 80rpx;"/>
     <view class="scan-text">点击扫码预约</view>
   </view>
 </view>

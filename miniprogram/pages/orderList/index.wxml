@@ -1,0 +1,22 @@
+<van-tabs 
+  class="tabs"
+  active="{{ active }}" 
+  color="#f08519" 
+  bind:change="onChange" 
+  sticky 
+  swipeable
+>
+  <van-tab title="已预约" info="{{ orderList.length || 0 }}">
+    <order-list orderList="{{ orderList }}"></order-list>
+    <load-more 
+      id="load-more" 
+      bind:loadMoreListener="loadMoreListener"
+      hasMore="{{ hasMore }}"  
+    ></load-more>
+  </van-tab>
+  <van-tab title="施工中" info="{{ abuildingOrderList.length || 0 }}">
+    <order-list orderList="{{ abuildingOrderList }}"></order-list>
+  </van-tab>
+  <van-tab title="已完成" info="{{ abuildingOrderList.length || 0 }}">内容 3</van-tab>
+  <van-tab title="已终止" info="{{ abuildingOrderList.length || 0 }}">内容 4</van-tab>
+</van-tabs>

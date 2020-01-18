@@ -1,0 +1,23 @@
+/* components/order-list/index.wxss */
+.desc-content {
+  line-height: 40rpx;
+}
+.desc {
+  margin-top: 20rpx;
+}
+.van-card__title {
+  line-height: 35rpx !important;
+}
+.order-footer {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.van-panel {
+  margin-top: 20rpx;
+}
+.empty-content {
+  height: 100%;
+  text-align: center;
+  line-height: 400rpx;
+  color: #d9d9d9;
+}

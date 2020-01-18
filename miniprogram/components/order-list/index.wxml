@@ -1,0 +1,19 @@
+<view wx:if="{{ orderList.length }}">
+  <view wx:for="{{ orderList }}" wx:key="index">
+    <van-panel title="订单编号：{{ item.orderId }}" use-footer-slot>
+      <van-card
+        title="{{item.appointmentName}}  {{ item.appointmentMobile }}"
+        thumb="{{ item.contractPictures[0] }}"
+      >
+        <view slot="desc">
+          <view class="desc-content">地址：{{ item.appointmentAddress }}</view>
+          <view class="desc-content">预约时间：{{ item.appointmentDate }}</view>
+        </view>
+      </van-card>
+      <view slot="footer" class="order-footer">
+        <van-button size="small">查看详情</van-button>
+      </view>
+    </van-panel>
+  </view>
+</view>
+<view wx:else class="empty-content">暂无数据</view>

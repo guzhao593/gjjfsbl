@@ -8,11 +8,13 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
+    "backgroundColor": "#eeeeee",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "WeChat",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
+    "custom": true,
     "list": [
       {
         "pagePath": "pages/appointment/index",
