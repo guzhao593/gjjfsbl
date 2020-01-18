@@ -1,4 +1,6 @@
 // miniprogram/pages/appointment.js
+
+const db = wx.cloud.database()
 Page({
 
   /**
@@ -6,49 +8,15 @@ Page({
    */
   data: {
     active: 0,
-    hasMore: true,
     abuildingOrderList: [],
-    orderList: [
-      {
-        orderId: 'gjj2020011800001',
-        appointmentName: '蓝茂智',
-        appointmentMobile: 18823282233,
-        appointmentAddress: '广东省广州市白云区白云小区1栋1202号',
-        appointmentDate: '2020-01-18 12:00:00',
-        contractPictures: ['https://img.yzcdn.cn/public_files/2017/10/24/e5a5a02309a41f9f5def56684808d9ae.jpeg']
-      },
-      {
-        orderId: 'gjj2020011800001',
-        appointmentName: '蓝茂智',
-        appointmentMobile: 18823282233,
-        appointmentAddress: '广东省广州市白云区白云小区1栋1202号',
-        appointmentDate: '2020-01-18 12:00:00',
-        contractPictures: ['https://img.yzcdn.cn/public_files/2017/10/24/e5a5a02309a41f9f5def56684808d9ae.jpeg']
-      },
-      {
-        orderId: 'gjj2020011800001',
-        appointmentName: '蓝茂智',
-        appointmentMobile: 18823282233,
-        appointmentAddress: '广东省广州市白云区白云小区1栋1202号',
-        appointmentDate: '2020-01-18 12:00:00',
-        contractPictures: ['https://img.yzcdn.cn/public_files/2017/10/24/e5a5a02309a41f9f5def56684808d9ae.jpeg']
-      },
-      {
-        orderId: 'gjj2020011800002',
-        appointmentName: '蓝小智',
-        appointmentMobile: 18823282233,
-        appointmentAddress: '广东省广州市白云区白云小区1栋',
-        appointmentDate: '2020-01-18 12:00:00',
-        contractPictures: ['https://img.yzcdn.cn/public_files/2017/10/24/e5a5a02309a41f9f5def56684808d9ae.jpeg']
-      }
-    ]
+    orderList: []
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.loadData()
   },
 
   /**
@@ -99,6 +67,29 @@ Page({
   onShareAppMessage: function () {
 
   },
+
+  loadData: function () {
+    console.log(22222)
+    db.collection('order').get({
+      success: function (res) {
+        console.log(res.data[0], 'res')
+        delete res.data[0]._id
+        db.collection('order')
+          .add({
+            data: res.data[0],
+            success: function () {
+              console.log('success')
+            },
+            fail: function () {
+              console.log('fail')
+            }
+          })
+      },
+      fail: function () {
+        console.log('error')
+      }
+    })
+  },
   
   onChange: function () {
   },
@@ -108,9 +99,6 @@ Page({
       curPage: 1,
       pageCount: 2
     }
-    this.setData({
-      hasMore: data.curPage < data.pageCount
-    })
     setTimeout(() => {
      this.loadMoreCom.loadMoreComplete(data)
     }, 500)

@@ -11,7 +11,6 @@
     <load-more 
       id="load-more" 
       bind:loadMoreListener="loadMoreListener"
-      hasMore="{{ hasMore }}"  
     ></load-more>
   </van-tab>
   <van-tab title="施工中" info="{{ abuildingOrderList.length || 0 }}">

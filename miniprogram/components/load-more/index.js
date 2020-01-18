@@ -46,7 +46,6 @@ Component({
 
     //加载更多的入口方法, 直接在page中使用时请在onReachBottom() 方法中调用这个方法, 并实现loadMoreListener方法去获取数据
     loadMore: function () {
-      console.log('properties', this.properties)
       if (!this.properties.hasMore) {
         console.log('load more finish')
         return
