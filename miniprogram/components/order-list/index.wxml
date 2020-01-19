@@ -1,6 +1,6 @@
 <view wx:if="{{ orderList.length }}">
   <view wx:for="{{ orderList }}" wx:key="index">
-    <van-panel title="订单编号：{{ item.orderId }}" use-footer-slot>
+    <van-panel title="订单编号：{{ item.orderCode }}" use-footer-slot>
       <van-card
         title="{{item.appointmentName}}  {{ item.appointmentMobile }}"
         thumb="{{ item.contractPictures[0] }}"

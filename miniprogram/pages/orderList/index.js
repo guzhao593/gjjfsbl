@@ -1,22 +1,61 @@
 // miniprogram/pages/appointment.js
 
 const db = wx.cloud.database()
+const PAGE_SIZE = 10
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    active: 0,
+    active: 'appointment',
     abuildingOrderList: [],
-    orderList: []
+    orderConfig: {
+      appointment: {
+        orderList: [],
+        pageIndex: 1,
+        total: 0,
+        isGet: false
+      },
+      abuilding: {
+        orderList: [],
+        pageIndex: 1,
+        total: 0,
+        isGet: false
+      },
+      completed: {
+        orderList: [],
+        pageIndex: 1,
+        total: 0,
+        isGet: false
+      },
+      terminated: {
+        orderList: [],
+        pageIndex: 1,
+        total: 0,
+        isGet: false
+      },
+    },
+    orderState: [
+      'appointment',
+      'abuilding',
+      'completed',
+      'terminated'
+    ],
+    orderStateName: [
+      '已预约',
+      '施工中',
+      '已完成',
+      '已终止'
+    ]
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.loadData()
+    this.loadData(true)
   },
 
   /**
@@ -68,39 +107,64 @@ Page({
 
   },
 
-  loadData: function () {
-    console.log(22222)
-    db.collection('order').get({
-      success: function (res) {
-        console.log(res.data[0], 'res')
-        delete res.data[0]._id
-        db.collection('order')
-          .add({
-            data: res.data[0],
-            success: function () {
-              console.log('success')
-            },
-            fail: function () {
-              console.log('fail')
-            }
-          })
-      },
-      fail: function () {
-        console.log('error')
+  getAllOrderStateTotal () {
+    const fucArray = this.data.orderState.map(orderState => {
+      return function () {
+        return db.collection('order')
+          .where({
+            appointmentMobile: 18823282233,
+            orderState
+          }).count()
       }
     })
-  },
-  
-  onChange: function () {
+    return Promise.all(fucArray.map(func => func()))
   },
 
-  loadMoreListener: function () {
-    const data = {
-      curPage: 1,
-      pageCount: 2
+  loadData: async function (isGetTotal) {
+    if (isGetTotal) {
+      const totalArray = await this.getAllOrderStateTotal()
+      this.data.orderState.forEach((key, index) => {
+        this.setData({
+          [`orderConfig.${this.data.orderState[index]}.total`]: totalArray[index].total
+        })
+      })
     }
-    setTimeout(() => {
-     this.loadMoreCom.loadMoreComplete(data)
-    }, 500)
+
+    db.collection('order')
+      .where({
+        appointmentMobile: 18823282233,
+        orderState: this.data.active
+      })
+      .skip((this.data.orderConfig[this.data.active].pageIndex - 1) * PAGE_SIZE)
+      .limit(PAGE_SIZE)
+      .get({
+        success: (res) => {
+          this.setData({
+            [`orderConfig.${this.data.active}.orderList`]: this.data.orderConfig[this.data.active].orderList.concat(res.data),
+            [`orderConfig.${this.data.active}.isGet`]: true
+          })
+          const data = {
+            curPage: this.data.orderConfig[this.data.active].pageIndex,
+            pageCount: Math.ceil(this.data.orderConfig[this.data.active].total / PAGE_SIZE)
+          }
+          this.loadMoreCom.loadMoreComplete(data)
+        },
+        fail: console.error
+      })
+
+  },
+  
+  onChange: function (e) {
+    this.setData({
+      active: e.detail.name
+    })
+    !this.data.orderConfig[this.data.active].isGet && this.loadData()
+  },
+
+  loadMoreListener: function (e) {
+    this.setData({
+      [`orderConfig.${this.data.active}.pageIndex`]: ++this.data.orderConfig[this.data.active].pageIndex
+    })
+    this.loadData()
   }
 })
