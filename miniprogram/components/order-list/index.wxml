@@ -11,7 +11,7 @@
         </view>
       </van-card>
       <view slot="footer" class="order-footer">
-        <van-button size="small">查看详情</van-button>
+        <van-button size="small" bind:click="routerToDetail" id="{{ item.orderCode }}">查看详情</van-button>
       </view>
     </van-panel>
   </view>

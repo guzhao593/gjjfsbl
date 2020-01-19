@@ -1,5 +1,5 @@
 // miniprogram/pages/appointment.js
-
+const ui = require('../../utils/ui.js')
 const db = wx.cloud.database()
 const PAGE_SIZE = 10
 
@@ -121,6 +121,9 @@ Page({
   },
 
   loadData: async function (isGetTotal) {
+    if (!this.data.orderConfig[this.data.active].isGet)(
+      ui.showLoading('加载中...')
+    )
     if (isGetTotal) {
       const totalArray = await this.getAllOrderStateTotal()
       this.data.orderState.forEach((key, index) => {
@@ -143,15 +146,17 @@ Page({
             [`orderConfig.${this.data.active}.orderList`]: this.data.orderConfig[this.data.active].orderList.concat(res.data),
             [`orderConfig.${this.data.active}.isGet`]: true
           })
+          ui.hideLoading()
           const data = {
             curPage: this.data.orderConfig[this.data.active].pageIndex,
             pageCount: Math.ceil(this.data.orderConfig[this.data.active].total / PAGE_SIZE)
           }
           this.loadMoreCom.loadMoreComplete(data)
         },
-        fail: console.error
+        fail: function () {
+          ui.hideLoading()
+        }
       })
-
   },
   
   onChange: function (e) {

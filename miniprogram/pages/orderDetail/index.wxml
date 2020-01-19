@@ -1,0 +1,61 @@
+
+<van-image
+  width="100%"
+  height="95"
+  src="/images/banner.png"
+/>
+<view class="form-box">
+  <form report-submit="true" bindsubmit="formSubmit" bindreset="formReset" class="form">
+    <van-field
+      label="姓名"
+      value="{{ orderForm.appointmentName }}"
+      id="appointmentName"
+      placeholder="请输入姓名"
+      border="{{ true }}"
+      required
+      error-message="{{ rules.appointmentName.errorMessage }}"
+      bind:change="onChange"
+    />
+    <van-field
+      label="手机号码"
+      value="{{ orderForm.appointmentMobile }}"
+      id="appointmentMobile"
+      placeholder="请输入手机号码"
+      border="{{ true }}"
+      required
+      error-message="{{ rules.appointmentMobile.errorMessage }}"
+      bind:change="onChange"
+    />
+    <van-field
+      label="地址"
+      value="{{ orderForm.appointmentAddress }}"
+      id="appointmentAddress"
+      placeholder="请输入地址"
+      border="{{ true }}"
+      required
+      error-message="{{ rules.appointmentAddress.errorMessage }}"
+      bind:change="onChange"
+    />
+    <van-field
+      label="预约时间"
+      value="{{ orderForm.appointmentDate }}"
+      id="appointmentDate"
+      placeholder="请输入预约时间"
+      border="{{ true }}"
+      required
+      error-message="{{ rules.appointmentDate.errorMessage }}"
+      bind:change="onChange"
+    />
+    <van-field
+      label="详细说明"
+      value="{{ orderForm.detailsInfo }}"
+      id="detailsInfo"
+      placeholder="请输入详细说明"
+      border="{{ true }}"
+      bind:change="onChange"
+    />
+    <view class="button-box">
+      <button formType="submit" type="primary" class="submit-button">提交预约</button>
+    </view>
+  </form>
+</view>
