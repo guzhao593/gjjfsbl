@@ -24,9 +24,9 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    routerToDetail: function ({ target }) {
+    routerToDetail: function ({ currentTarget, ...ret }) {
       wx.navigateTo({
-        url: `../../pages/orderDetail/index?id=${target.id}`,
+        url: `../../pages/orderDetail/index?id=${currentTarget.id}`,
         events: {
           // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
           acceptDataFromOpenedPage: function (data) {
@@ -36,9 +36,11 @@ Component({
             console.log(data)
           }
         },
-        success: function (res) {
+        success: (res) => {
           // 通过eventChannel向被打开页面传送数据
-          res.eventChannel.emit('acceptDataFromOpenerPage', { data: 'test' })
+          res.eventChannel.emit('acceptDataFromOpenerPage', { 
+            ...this.properties.orderList.find(item => item.orderCode === currentTarget.id) 
+          })
         }
       })
     }

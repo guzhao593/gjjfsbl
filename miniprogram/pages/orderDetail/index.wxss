@@ -16,3 +16,9 @@
 .submit-button[type=primary] {
   background-color: #07c160;
 }
+.uploader-box {
+  border-bottom: 1px solid #f5f6f7;
+}
+.uploader {
+  padding: 20px;
+}

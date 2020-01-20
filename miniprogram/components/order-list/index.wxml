@@ -1,18 +1,37 @@
 <view wx:if="{{ orderList.length }}">
   <view wx:for="{{ orderList }}" wx:key="index">
-    <van-panel title="订单编号：{{ item.orderCode }}" use-footer-slot>
+    <van-panel 
+      title="订单编号：{{ item.orderCode }}" 
+      use-footer-slot 
+      bindtap="routerToDetail" 
+      id="{{ item.orderCode }}"
+    >
       <van-card
         title="{{item.appointmentName}}  {{ item.appointmentMobile }}"
-        thumb="{{ item.contractPictures[0] }}"
       >
+        <view slot="thumb">
+          <van-image 
+            use-loading-slot 
+            width="90px"
+            height="80px"
+            src="{{ item.pictures[0].url }}"
+          >
+            <van-loading
+              slot="loading"
+              type="spinner"
+              size="20"
+              vertical
+            />
+            </van-image>
+        </view>
         <view slot="desc">
           <view class="desc-content">地址：{{ item.appointmentAddress }}</view>
-          <view class="desc-content">预约时间：{{ item.appointmentDate }}</view>
+          <view class="desc-content">预约时间：{{ item.appointmentDateTemp }}</view>
         </view>
       </van-card>
-      <view slot="footer" class="order-footer">
+      <!-- <view slot="footer" class="order-footer">
         <van-button size="small" bind:click="routerToDetail" id="{{ item.orderCode }}">查看详情</van-button>
-      </view>
+      </view> -->
     </van-panel>
   </view>
 </view>

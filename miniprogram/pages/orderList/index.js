@@ -2,6 +2,12 @@
 const ui = require('../../utils/ui.js')
 const db = wx.cloud.database()
 const PAGE_SIZE = 10
+const INIT_CONFIG = {
+  orderList: [],
+  pageIndex: 1,
+  total: 0,
+  isGet: false
+}
 
 Page({
 
@@ -12,39 +18,22 @@ Page({
     active: 'appointment',
     abuildingOrderList: [],
     orderConfig: {
-      appointment: {
-        orderList: [],
-        pageIndex: 1,
-        total: 0,
-        isGet: false
-      },
-      abuilding: {
-        orderList: [],
-        pageIndex: 1,
-        total: 0,
-        isGet: false
-      },
-      completed: {
-        orderList: [],
-        pageIndex: 1,
-        total: 0,
-        isGet: false
-      },
-      terminated: {
-        orderList: [],
-        pageIndex: 1,
-        total: 0,
-        isGet: false
-      },
+      appointment: INIT_CONFIG,
+      receipting: INIT_CONFIG,
+      abuilding: INIT_CONFIG,
+      completed: INIT_CONFIG,
+      terminated: INIT_CONFIG
     },
     orderState: [
       'appointment',
+      'receipting',
       'abuilding',
       'completed',
       'terminated'
     ],
     orderStateName: [
       '已预约',
+      '接单中',
       '施工中',
       '已完成',
       '已终止'
@@ -112,7 +101,7 @@ Page({
       return function () {
         return db.collection('order')
           .where({
-            appointmentMobile: 18823282233,
+            appointmentMobile: '18823287243',
             orderState
           }).count()
       }
@@ -135,7 +124,7 @@ Page({
 
     db.collection('order')
       .where({
-        appointmentMobile: 18823282233,
+        appointmentMobile: '18823287243',
         orderState: this.data.active
       })
       .skip((this.data.orderConfig[this.data.active].pageIndex - 1) * PAGE_SIZE)

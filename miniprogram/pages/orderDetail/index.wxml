@@ -27,25 +27,59 @@
       bind:change="onChange"
     />
     <van-field
-      label="地址"
-      value="{{ orderForm.appointmentAddress }}"
-      id="appointmentAddress"
-      placeholder="请输入地址"
+      label="所在地区"
+      value="{{ orderForm.appointmentAddressTemp }}"
+      id="appointmentAddressTemp"
+      placeholder="请选择所在地区"
       border="{{ true }}"
       required
-      error-message="{{ rules.appointmentAddress.errorMessage }}"
+      readonly
+      error-message="{{ rules.appointmentAddressTemp.errorMessage }}"
+      bind:change="onChange"
+      bindtap="showAreaPopup"
+    />
+    <van-popup show="{{ isShowAreaPopup }}" bind:close="onCloseAreaPopup" position="bottom">
+      <van-area 
+        id="appointmentAddress"
+        area-list="{{ areaList }}" 
+        value="{{ orderForm.appointmentAddress }}"
+        bind:confirm="onConfirmArea"
+        bind:cancel="onCancelArea"
+      />
+    </van-popup>
+    <van-field
+      label="详细地址"
+      value="{{ orderForm.appointmentAddressDetail }}"
+      id="appointmentAddressDetail"
+      placeholder="请输入详细地址"
+      border="{{ true }}"
+      required
+      error-message="{{ rules.appointmentAddressDetail.errorMessage }}"
       bind:change="onChange"
     />
     <van-field
       label="预约时间"
-      value="{{ orderForm.appointmentDate }}"
-      id="appointmentDate"
-      placeholder="请输入预约时间"
+      value="{{ orderForm.appointmentDateTemp }}"
+      id="appointmentDateTemp"
+      placeholder="请选择预约时间"
       border="{{ true }}"
       required
-      error-message="{{ rules.appointmentDate.errorMessage }}"
+      readonly
+      error-message="{{ rules.appointmentDateTemp.errorMessage }}"
       bind:change="onChange"
+      bindtap="showDatePopup"
     />
+    <van-popup show="{{ isShowDatePopup }}" bind:close="onCloseDatePopup" position="bottom">
+      <van-datetime-picker
+        id="appointmentDate"
+        type="datetime"
+        value="{{ orderForm.appointmentDate }}"
+        min-date="{{ minDate }}"
+        formatter="{{ formatter }}"
+        bind:confirm="onConfirmDate"
+        bind:cancel="onCancelDate"
+      />
+    </van-popup>
     <van-field
       label="详细说明"
       value="{{ orderForm.detailsInfo }}"
@@ -54,8 +88,21 @@
       border="{{ true }}"
       bind:change="onChange"
     />
+    <view class="uploader-box">
+      <van-cell title="上传图片" value="最多上传6张图片" border="{{ false }}"/>
+      <van-uploader
+        class="uploader"
+        id="pictures"
+        file-list="{{ orderForm.pictures }}"
+        max-count="6"
+        preview-size="40px"
+        bind:after-read="afterRead"
+        bind:delete="deletePictures"
+      />
+    </view>
     <view class="button-box">
       <button formType="submit" type="primary" class="submit-button">提交预约</button>
     </view>
   </form>
+  <van-dialog id="van-dialog" />
 </view>
