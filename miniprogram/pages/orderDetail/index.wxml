@@ -5,7 +5,19 @@
   src="/images/banner.png"
 />
 <view class="form-box">
-  <form report-submit="true" bindsubmit="formSubmit" bindreset="formReset" class="form">
+  <form 
+    report-submit="true" 
+    bindsubmit="formSubmit" 
+    bindreset="formReset" 
+    class="form"
+  >
+    <van-field
+      wx:if="{{ !isScanEnter }}"
+      label="订单编号"
+      value="{{ orderForm.orderCode }}"
+      border="{{ true }}"
+      disabled="{{ true }}"
+    />
     <van-field
       label="姓名"
       value="{{ orderForm.appointmentName }}"
@@ -13,6 +25,7 @@
       placeholder="请输入姓名"
       border="{{ true }}"
       required
+      disabled="{{ !isScanEnter }}"
       error-message="{{ rules.appointmentName.errorMessage }}"
       bind:change="onChange"
     />
@@ -23,6 +36,7 @@
       placeholder="请输入手机号码"
       border="{{ true }}"
       required
+      disabled="{{ !isScanEnter }}"
       error-message="{{ rules.appointmentMobile.errorMessage }}"
       bind:change="onChange"
     />
@@ -34,6 +48,7 @@
       border="{{ true }}"
       required
       readonly
+      disabled="{{ !isScanEnter }}"
       error-message="{{ rules.appointmentAddressTemp.errorMessage }}"
       bind:change="onChange"
       bindtap="showAreaPopup"
@@ -54,6 +69,7 @@
       placeholder="请输入详细地址"
       border="{{ true }}"
       required
+      disabled="{{ !isScanEnter }}"
       error-message="{{ rules.appointmentAddressDetail.errorMessage }}"
       bind:change="onChange"
     />
@@ -65,6 +81,7 @@
       border="{{ true }}"
       required
       readonly
+      disabled="{{ !isScanEnter }}"
       error-message="{{ rules.appointmentDateTemp.errorMessage }}"
       bind:change="onChange"
       bindtap="showDatePopup"
@@ -85,6 +102,7 @@
       value="{{ orderForm.detailsInfo }}"
       id="detailsInfo"
       placeholder="请输入详细说明"
+      disabled="{{ !isScanEnter }}"
       border="{{ true }}"
       bind:change="onChange"
     />
@@ -93,15 +111,27 @@
       <van-uploader
         class="uploader"
         id="pictures"
-        file-list="{{ orderForm.pictures }}"
+        file-list="{{ orderForm.pictures }}"                                                         
         max-count="6"
+        disabled="{{ !isScanEnter }}"
+        deletable="{{ isScanEnter }}"
         preview-size="40px"
         bind:after-read="afterRead"
         bind:delete="deletePictures"
       />
     </view>
     <view class="button-box">
-      <button formType="submit" type="primary" class="submit-button">提交预约</button>
+      <view wx:for="{{ buttonConfig }}" wx:key="index">
+        <button                                                          
+          wx:if="{{ item.show }}" 
+          formType="{{ item.formType }}" 
+          type="{{ item.type }}" 
+          data-cancel="{{ item.isCancel }}"
+          loading="{{ buttonLoading[item.loading] }}"
+          class="{{ item.class }}"
+          bindtap="cancelOrder"
+        >{{ item.text }}</button>
+      </view>
     </view>
   </form>
   <van-dialog id="van-dialog" />

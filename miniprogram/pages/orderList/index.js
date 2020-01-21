@@ -1,6 +1,7 @@
 // miniprogram/pages/appointment.js
 const ui = require('../../utils/ui.js')
 const db = wx.cloud.database()
+const app = getApp();
 const PAGE_SIZE = 10
 const INIT_CONFIG = {
   orderList: [],
@@ -101,7 +102,7 @@ Page({
       return function () {
         return db.collection('order')
           .where({
-            appointmentMobile: '18823287243',
+            _openid: app.globalData.openId,
             orderState
           }).count()
       }
@@ -123,13 +124,14 @@ Page({
     }
 
     db.collection('order')
+      .orderBy('appointmentDate', 'desc')
       .where({
-        appointmentMobile: '18823287243',
+        _openid: app.globalData.openId,
         orderState: this.data.active
       })
       .skip((this.data.orderConfig[this.data.active].pageIndex - 1) * PAGE_SIZE)
       .limit(PAGE_SIZE)
-      .get({
+      .get({                                         
         success: (res) => {
           this.setData({
             [`orderConfig.${this.data.active}.orderList`]: this.data.orderConfig[this.data.active].orderList.concat(res.data),

@@ -9,6 +9,7 @@
     "van-area": "/@vant/weapp/area/index",
     "van-popup": "/@vant/weapp/popup/index",
     "van-dialog": "/@vant/weapp/dialog/index",
+    "van-overlay": "/@vant/weapp/overlay/index",
     "van-image": "/@vant/weapp/image/index"
   }
 }

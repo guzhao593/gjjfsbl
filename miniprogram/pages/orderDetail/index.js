@@ -4,6 +4,7 @@ const util = require('../../utils/index.js');
 const ui = require('../../utils/ui.js');
 const areaList = require('../../mockdata/area.js')
 const db = wx.cloud.database();
+const app = getApp();
 Page({
 
   /**
@@ -21,7 +22,8 @@ Page({
       appointmentDateTemp: '',
       detailsInfo: '',
       pictures: [],
-      orderState: 'appointment'
+      orderState: '',
+      isScanEnter: true
     },
     rules: {
       appointmentName: {
@@ -71,19 +73,72 @@ Page({
         return `${value}分`;
       }
       return value;
-    }
+    },
+    buttonConfig: [],
+    buttonLoading:{
+      submit: false,
+      cancel: false
+    },
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    if (options.id) {
+      this.setData({
+        isScanEnter: false
+      })
+    }
+    app.globalData.role = 'serviceProvider'
     const eventChannel = this.getOpenerEventChannel()
     eventChannel.on('acceptDataFromOpenerPage', (data) => {
       this.setData({
-        orderForm: data
+        orderForm: data,
+        buttonConfig: [
+          {
+            show: this.data.isScanEnter,
+            text: '提交预约',
+            class: 'submit-button',
+            formType: 'submit',
+            type: 'primary',
+            loading: 'submit'
+          },
+          {
+            show: !this.data.isScanEnter && app.globalData.role === 'serviceProvider' && data.orderState === 'appointment',
+            text: '接收订单',
+            class: 'submit-button',
+            formType: 'submit',
+            type: 'primary',
+            loading: 'submit'
+          },
+          {
+            show: !this.data.isScanEnter && app.globalData.role === 'serviceProvider' && data.orderState === 'receipting',
+            text: '开始施工',
+            class: 'submit-button',
+            formType: 'submit',
+            type: 'primary',
+            loading: 'submit'
+          },
+          {
+            show: !this.data.isScanEnter && app.globalData.role === 'serviceProvider' && data.orderState === 'abuilding',
+            text: '完成订单',
+            class: 'submit-button',
+            formType: 'submit',
+            type: 'primary',
+            loading: 'submit'
+          },
+          {
+            show: !this.data.isScanEnter && app.globalData.role === 'serviceProvider' && data.orderState === 'appointment',
+            text: '取消订单',
+            class: 'cancel-button',
+            formType: '',
+            type: 'warn',
+            loading: 'cancel',
+            isCancel: true
+          },
+        ]
       })
-      console.log(this.data.orderForm, 'orderForm')
     })
   },
 
@@ -149,7 +204,7 @@ Page({
   },
 
   showDatePopup: function () {
-    this.setData({ isShowDatePopup: true });
+    this.setData({ isShowDatePopup: this.data.isScanEnter });
   },
 
   onCloseDatePopup: function () {
@@ -167,7 +222,7 @@ Page({
   },
 
   showAreaPopup: function () {
-    this.setData({ isShowAreaPopup: true });
+    this.setData({ isShowAreaPopup: this.data.isScanEnter  });
   },
   onCloseAreaPopup: function () {
     this.setData({ isShowAreaPopup: false });
@@ -221,9 +276,117 @@ Page({
     })
   },
 
+  addOrder: function () {
+    const orderCode = `GJJ${util.genarateCode(new Date())}`
+    db.collection('order')
+      .add({
+        data: {
+          ...ret,
+          orderCode,
+          orderState: 'appointment'
+        },
+        success: function () {
+          Dialog
+            .alert({
+              message: '预约成功！'
+            })
+            .then(() => {
+              wx.reLaunch({
+                url: '../orderList/index',
+              })
+            })
+        },
+        fail: function () {
+          Dialog
+            .alert({
+              message: '预约失败， 请重新提交！'
+            })
+        },
+        complete: () => {
+          this.setData({
+            'buttonLoading.submit': false
+          })
+        }
+      })
+  },
 
-  formSubmit: function () {
-    let valid = true
+  updateOrder: function (state, done) {
+    const stateMap = {
+      appointment: {
+        nextState: 'receipting',
+        nextStateName: '提交'
+      },
+      receipting: {
+        nextState: 'abuilding',
+        nextStateName: '提交'
+      },
+      abuilding: {
+        nextState: 'completed',
+        nextStateName: '提交'
+      },
+      terminated: {
+        nextState: 'terminated',
+        nextStateName: '取消'
+      },
+    }
+    const { orderState, ...ret } = this.data.orderForm;
+    if (!orderState) {
+      return wx.showToast({
+        title: '订单数据有误，无法提交！',
+        duration: 60000
+      })
+    }
+    ui.showLoading(`${stateMap[state || orderState].nextStateName}中...`)
+    wx.cloud.callFunction({
+      name: 'updateOrder',
+      data: {
+        orderForm: {
+          ...ret,
+          orderState: stateMap[state || orderState].nextState
+        }
+      },
+      success: function (res) {
+        Dialog
+          .alert({
+            message: stateMap[state || orderState].nextStateName + '成功！'
+          })
+          .then(() => {
+            wx.reLaunch({
+              url: '../orderList/index',
+            })
+          })
+      },
+      fail: function () {
+        Dialog
+          .alert({
+            message: stateMap[state || orderState].nextStateName + '失败， 请重新提交！'
+          })
+      },
+      complete: (res) => {
+        this.setData({
+          'buttonLoading.submit': false
+        })
+        ui.hideLoading()
+      }
+    })
+  },
+  
+  cancelOrder: function ({ currentTarget }) {
+    if (currentTarget.dataset.cancel) {
+      Dialog.confirm({
+        message: '确认要取消该订单？'
+      })
+        .then(() => {
+          this.updateOrder('terminated')
+        })
+        .catch(() => {
+          Dialog.close();
+        });
+    }
+  },
+
+  formSubmit: function (e) {
+    let valid = true                                   
     Object.keys(this.data.rules).forEach(key => {
       this.data.rules[key].validator(this.data.orderForm[key], (message) => {
         if (message && valid) {
@@ -235,26 +398,10 @@ Page({
       })
     })
     if (valid) {
-      const orderCode = `GJJ${util.genarateCode(new Date(this.data.orderForm.appointmentDate))}`
-      console.log(orderCode, 'orderCode')
-      db.collection('order')
-        .add({
-          data: {
-            ...this.data.orderForm,
-            orderCode
-          },
-          success: function () {
-            Dialog
-              .alert({
-                message: '预约成功！'
-              })
-              .then(() => {
-                wx.switchTab({
-                  url: '../orderList/index',
-                })
-              })
-          }
-        })
+      this.setData({
+        'buttonLoading.submit': true
+      })
+      this.isScanEnter ? this.addOrder() : this.updateOrder()
     }
   }
 })
