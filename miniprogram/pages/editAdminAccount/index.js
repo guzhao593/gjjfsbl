@@ -46,35 +46,45 @@ Page({
   },
 
   addAcount () {
-    const eventChannel = this.getOpenerEventChannel()
-    console.log(eventChannel, 'eventChannel')
-    const now = Date.now()
     db.collection('adminAccount')
-      .add({
-        data: {
-          ...this.data.accountForm,
-          createTime: now,
-          lastUpdateTime: now
-        },
-        success: (res) => {
-          Dialog
-            .alert({
-              message: '保存成功！'
+      .where({
+        account: this.data.accountForm.account
+      })
+      .get({
+        success: ({ data }) => {
+          if (data.length) {
+            ui.hideLoading()
+            return Toast('该账户已经存在')
+          }
+          const now = Date.now()
+          db.collection('adminAccount')
+            .add({
+              data: {
+                ...this.data.accountForm,
+                createTime: now,
+                lastUpdateTime: now
+              },
+              success: (res) => {
+                Dialog
+                  .alert({
+                    message: '保存成功！'
+                  })
+                  .then(() => {
+                    wx.navigateTo({
+                      url: '../adminAccount/index?reload=Y'
+                    })
+                  })
+              },
+              fail: () => {
+                Dialog
+                  .alert({
+                    message: '保存失败，请重新提交！'
+                  })
+              },
+              complete: () => {
+                ui.hideLoading()
+              }
             })
-            .then(() => {
-              wx.navigateTo({
-                url: '../adminAccount/index?reload=Y'
-              })
-            })
-        },
-        fail: () => {
-          Dialog
-            .alert({
-              message: '保存失败，请重新提交！'
-            })
-        },
-        complete: () => {
-          ui.hideLoading()
         }
       })
   },

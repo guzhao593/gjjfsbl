@@ -11,26 +11,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    accountList: [
-      { account: '18823287243' },
-      { account: '18823287243' },
-      { account: '18823287243' },
-      { account: '18823287243' },
-      { account: '18823287243' },
-      { account: '18823287243' },
-      { account: '18823287243' },
-      { account: '18823287243' },
-      { account: '18823287243' },
-      { account: '18823287243' },
-      { account: '18823287243' },
-      { account: '18823287243' },
-      { account: '18823287243' },
-      { account: '18823287243' },
-      { account: '18823287243' },
-      { account: '18823287243' },
-      { account: '18823287243' },
-      { account: '18823287243' },
-    ]
+    accountList: []
   },
 
   /**
@@ -93,7 +74,6 @@ Page({
             account: target.id
           },
           success: (res) => {
-            console.log(res,'res')
             Dialog.alert({
               message: '删除成功！'
             })

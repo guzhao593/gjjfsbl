@@ -6,7 +6,6 @@ const db = cloud.database()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  console.log(event, 'event')
   return await db.collection('adminAccount')
   .where({
     account: event.account

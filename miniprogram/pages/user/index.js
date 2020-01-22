@@ -9,7 +9,6 @@ Page({
   },
   onLoad () {
     const { globalData } = app
-    console.log(app, 'app')
     this.setData({
       isLogin: globalData.isLogin,
       role: globalData.role,
