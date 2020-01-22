@@ -9,6 +9,9 @@ exports.main = async (event, context) => {
   return await db.collection('order')
     .doc(_id)
     .update({
-      data: ret
+      data: {
+        ...ret,
+        lastUpdateTime: Date.now()
+      }
     })
 }

@@ -1,0 +1,45 @@
+<!--miniprogram/pages/login/index.wxml-->
+<view class="login-box">
+  <van-row class="login-text">
+    <van-col span="24">请登录</van-col>
+  </van-row>
+  <view  class="login-row">
+    <van-row>
+      <van-col span="16" offset="4">
+        <van-field
+          class="login-field"
+          id="account"
+          value="{{ loginForm.account }}"
+          placeholder="请输入账号"
+          border="{{ false }}"
+          left-icon="user-o"
+          bind:change="onChange"
+        />
+      </van-col>
+    </van-row>
+  </view>
+  <view class="login-password">
+    <van-row>
+      <van-col span="16" offset="4">
+        <van-field
+          class="login-field"
+          type="password"
+          id="password"
+          value="{{ loginForm.password }}"
+          placeholder="请输入密码"
+          border="{{ false }}"
+          left-icon="bag-o"
+          bind:change="onChange"
+        />
+      </van-col>
+    </van-row>
+  </view>
+  <view class="login-button">
+    <van-row>
+      <van-col span="16" offset="4">
+        <van-button type="primary" color="#f08519" block bind:click="handleLogin">登  录</van-button>
+      </van-col>
+    </van-row>
+  </view>
+  <van-toast id="van-toast" />
+</view>

@@ -1,7 +1,35 @@
+const app = getApp();
+const db = wx.cloud.database();
+
 Page({
   data: {
+    isLogin: false,
+    role: '',
+    loginInfo: {}
   },
-  onShow() {
+  onLoad () {
+    const { globalData } = app
+    console.log(app, 'app')
+    this.setData({
+      isLogin: globalData.isLogin,
+      role: globalData.role,
+      loginInfo: globalData.loginInfo
+    })
+  },
+  onShow () {
     this.getTabBar().init();
-  }
+  },
+  login () {
+
+  },
+  handleLoginType ({ target }) {
+    wx.navigateTo({
+      url: `../login/index?loginType=${target.id}`,
+      events: {
+        acceptDataFromOpenedPage: function (data) {
+          console.log(data)
+        }
+      }
+    })
+  },
 });

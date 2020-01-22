@@ -124,7 +124,7 @@ Page({
     }
 
     db.collection('order')
-      .orderBy('appointmentDate', 'desc')
+      .orderBy('lastUpdateTime', 'desc')
       .where({
         _openid: app.globalData.openId,
         orderState: this.data.active
