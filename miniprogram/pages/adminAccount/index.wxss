@@ -1,0 +1,31 @@
+.account-list-box {
+  margin-bottom: 120rpx;
+}
+.account-list {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 10px;
+  border-bottom: 1px solid #f8f8f8;
+  font-size: 14px;
+}
+.delete-button {
+  margin-left: 10px;
+}
+.account {
+  flex-basis: 400rpx;
+  text-align: left;
+}
+.add-button {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 120rpx;
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+}
+.add {
+  align-self: center;
+  width: 480rpx;
+}

@@ -1,0 +1,53 @@
+
+<view class="form">
+  <van-cell-group>
+    <van-field
+      label="账户"
+      value="{{ accountForm.account }}"
+      placeholder="请输入账户名"
+      border="{{ false }}"
+      required
+      disabled="{{ type === 'modify' }}"
+      id="account"
+      bind:change="onChange"
+    />
+    <van-field
+      wx:if="{{ type === 'add' }}"
+      id="password"
+      label="密码"
+      value="{{ accountForm.password }}"
+      type="password"
+      placeholder="请输入密码"
+      border="{{ false }}"
+      required
+      bind:change="onChange"
+    />
+    <van-field
+      wx:if="{{ type === 'modify' }}"
+      id="newPassword"
+      label="新密码"
+      value="{{ accountForm.newPassword }}"
+      type="password"
+      placeholder="请输入新密码"
+      border="{{ false }}"
+      required
+      bind:change="onChange"
+    />
+    <van-field
+      wx:if="{{ type === 'modify' }}"
+      id="confirmPassword"
+      label="确认密码"
+      value="{{ accountForm.confirmPassword }}"
+      type="password"
+      placeholder="请输入确认密码"
+      border="{{ false }}"
+      required
+      bind:change="onChange"
+    />
+  </van-cell-group>
+  <view class="confirm-box">
+    <van-button type="primary" class="confirm-button" color="#f08519" block round bind:click="handleConfirm">保 存</van-button>
+  </view>
+</view>
+<van-toast id="van-toast" />
+<van-dialog id="van-dialog" />

@@ -56,8 +56,8 @@
 
     <van-cell-group>
       <van-cell icon="todo-list-o" title="网点管理" is-link />
-      <van-cell icon="records" title="订单管理" is-link />
-      <van-cell icon="friends-o" title="账户管理" is-link />
+      <van-cell icon="records" title="订单管理" is-link link-type="switchTab"  url="../orderList/index"/>
+      <van-cell icon="friends-o" title="账户管理" is-link url="../account/index"/>
       <van-cell icon="setting-o" title="设置" is-link />
     </van-cell-group>
   </view>

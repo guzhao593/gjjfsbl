@@ -1,0 +1,24 @@
+<view>
+  <view class="account-list-box">
+    <view wx:for="{{ accountList }}" wx:key="index" class="account-list">
+      <view>{{ index + 1 }}</view>
+      <view class="account">{{ item.account }}</view>
+      <view>
+        <van-button type="primary" size="mini" bind:click="handleModify" id="{{ item.account }}">修改</van-button>
+        <van-button type="danger" size="mini" class="delete-button" bind:click="handleDelete" id="{{ item.account }}">删除</van-button>
+      </view>
+    </view>
+  </view>
+  <view class="add-button">
+    <van-button 
+      type="primary" 
+      round  
+      color="#f08519" 
+      icon="plus" 
+      block 
+      class="add"
+      bind:click="handleAdd"
+    >添加账户</van-button>
+  </view>
+</view>
+<van-dialog id="van-dialog" />

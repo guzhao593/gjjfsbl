@@ -1,0 +1,17 @@
+.form {
+  box-sizing: border-box;
+  padding: 20rpx;
+}
+.confirm-box {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 120rpx;
+  margin-top: 40rpx;
+  display: flex;
+  justify-content: center;
+}
+.confirm-button {
+  width: 480rpx;
+  align-self: center;
+}
