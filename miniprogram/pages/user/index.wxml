@@ -1,5 +1,5 @@
 <view>
-  <view wx:if="{{ !isLogin }}" class="login-box">
+  <view wx:if="{{ isLogin }}" class="login-box">
     <view>
       <view class="login-button">
         <van-row>
@@ -25,37 +25,40 @@
     </view>
   </view>
   <view wx:else>
-    <image 
-      class="user-poster" 
-      src="{{ 'https://img.yzcdn.cn/public_files/2017/10/23/8690bb321356070e0b8c4404d087f8fd.png' }}"
-    ></image>
-    <van-row class="user-links">
-      <van-col span="6">
-        <van-icon name="pending-payment" />
-        待付款
-      </van-col>
-      <van-col span="6">
-        <van-icon name="records" />
-        待接单
-      </van-col>
-      <van-col span="6">
-        <van-icon name="tosend" />
-        待发货
-      </van-col>
-      <van-col span="6">
-        <van-icon name="logistics" />
-        已发货
-      </van-col>
-    </van-row>
-
-    <van-cell-group class="user-group">
-      <van-cell icon="records" title="全部订单" is-link />
-    </van-cell-group>
+    <view class="header">
+      <van-image
+        class="logo"
+        width="80px"
+        height="81px"
+        fit="contain"
+        src="/images/logo.png"
+      />
+      <view class="account">
+        账号: {{ loginInfo.account }}
+      </view>
+      <view></view>
+      <view></view>
+    </view>
+    <view class="user-links">
+      <view span="12" class="links order">
+        订单数量： <span class="color-red">{{ orderTotal }}</span>
+      </view>
+      <view span="12" class="links turnover-amount">
+        成交金额： <span class="color-red">{{ amountTotal }}</span>
+      </view>
+      <view span="12" class="links my-commission">
+        我的佣金： <span class="color-red">{{ commissionTotal }}</span>
+      </view>
+      <view span="12" class="links my-promotion">
+        我的推广
+      </view>
+    </view>
 
     <van-cell-group>
-      <van-cell icon="points" title="我的积分" is-link />
-      <van-cell icon="gold-coin-o" title="我的优惠券" is-link />
-      <van-cell icon="gift-o" title="我收到的礼物" is-link />
+      <van-cell icon="todo-list-o" title="网点管理" is-link />
+      <van-cell icon="records" title="订单管理" is-link />
+      <van-cell icon="friends-o" title="账户管理" is-link />
+      <van-cell icon="setting-o" title="设置" is-link />
     </van-cell-group>
   </view>
 </view>

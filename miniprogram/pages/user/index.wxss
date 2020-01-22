@@ -4,38 +4,52 @@
   display: block;
 }
 
-.user-links {
-  padding: 15px 0;
-  font-size: 12px;
-  text-align: center;
-  background-color: #fff;
-}
-
-.user-links .van-icon {
-  display: block;
-  font-size: 24px;
-}
-
-.user-links .van-row {
-  padding: 15px 0;
-}
 .login-box {
   margin-top: 100px;
-}
-.login-text {
-  text-align: center;
-  font-size: 20px;
-}
-.login-row {
-  margin-top: 40px;
-}
-.login-password {
-  margin-top: 10px;
 }
 .login-button {
   margin-top: 20px;
 }
-.login-field .van-cell--borderless {
-  border: 1px solid #d9d9d9;
-  border-radius: 4px;
+.header {
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  height: 100px;
+  background-color: #f08519;
+  padding: 10px 15px;
+}
+.logo {
+}
+
+.account {
+  align-self: center;
+  height: 32px;
+  border: 1px solid #FFF;
+  padding: 0 10px;
+  line-height: 32px;
+  color: #fff;
+}
+.user-links {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.links {
+  box-sizing: border-box;
+  flex-basis: 50%;  
+  border-bottom: 1px solid  #ebedf0;
+  line-height: 40px;
+  padding: 0 15px;
+  font-size: 14px;
+}
+.order {
+  border-right: 1px solid  #ebedf0;
+}
+
+.my-commission {
+  border-right: 1px solid  #ebedf0;
+}
+
+.color-red {
+  color: #e62129;
 }
