@@ -1,0 +1,78 @@
+.account-list-box {
+  margin-bottom: 120rpx;
+}
+
+.delete-button {
+  margin-left: 10px;
+}
+.account {
+  /* flex-basis: 400rpx; */
+  text-align: left;
+}
+.add-button {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 120rpx;
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+}
+.add {
+  align-self: center;
+  width: 480rpx;
+}
+.account-header {
+  line-height: 64rpx;
+  text-align: center;
+  font-size: 12px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+}
+.account-code-title {
+  flex: 3;
+}
+.account-area-title {
+  flex: 11;
+}
+.account-name-title {
+  flex: 10;
+}
+.account-title {
+  background: #eee;
+  border-right: 1rpx solid #dbdbdb;
+  border-bottom: 1rpx solid #dbdbdb;
+  box-sizing: border-box;
+}
+.account-list {
+  border-bottom: 1px solid #f8f8f8;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+}
+.account-item-box {
+  margin-top: 64rpx;
+}
+.account-code {
+  text-align: center;
+  flex: 3;
+}
+.account-area {
+  flex: 11;
+}
+.account-name {
+  flex: 10;
+}
+.account-item {
+  font-size: 12px;
+  line-height: 40rpx;
+  padding: 20rpx 10rpx;
+  box-sizing: border-box;
+}
+.account-list:nth-child(2n) {
+  background: #eee;
+}

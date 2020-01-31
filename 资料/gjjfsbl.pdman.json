@@ -392,49 +392,55 @@
           "title": "agent",
           "fields": [
             {
-              "name": "agentId",
+              "name": "serviceProviderId",
               "type": "Integer",
               "remark": "",
               "chnname": "服务中心ID"
             },
             {
-              "name": "agentName",
+              "name": "serviceProviderCode",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "服务中心编号"
+            },
+            {
+              "name": "serviceProviderName",
               "type": "IdOrKey",
               "remark": "",
               "chnname": "服务中心名称"
             },
             {
-              "name": "agentContacts",
+              "name": "serviceProviderContactsName",
               "type": "DateTime",
               "remark": "",
-              "chnname": "联系人"
+              "chnname": "联系人姓名"
             },
             {
-              "name": "agentMobile",
+              "name": "serviceProviderMobile",
               "type": "IdOrKey",
               "remark": "",
               "chnname": "电话"
             },
             {
-              "name": "agentAddress",
+              "name": "serviceProviderAddress",
               "type": "DateTime",
               "remark": "",
               "chnname": "地址"
             },
             {
-              "name": "agentOpenId",
+              "name": "serviceProviderOpenId",
               "type": "DefaultString",
               "remark": "",
               "chnname": "微信id"
             },
             {
-              "name": "agentStorePictures",
+              "name": "serviceProviderStorePictures",
               "type": "DefaultString",
               "remark": "",
               "chnname": "门头图片"
             },
             {
-              "name": "agentArea",
+              "name": "serviceProviderArea",
               "type": "DefaultString",
               "remark": "一定代理商可以代理多个区域",
               "chnname": "代理区域"
@@ -784,63 +790,6 @@
             ],
             "sourceAnchor": 0,
             "targetAnchor": 30
-          },
-          {
-            "shape": "erdRelation",
-            "relation": "0,n:1",
-            "source": "3e2eb23b",
-            "target": "ac836ce2",
-            "id": "d7f55aa9",
-            "controlPoints": [
-              {
-                "x": 115.7958984375,
-                "y": 472.1630434782609
-              },
-              {
-                "x": 97.791015625,
-                "y": 352.9662162162162
-              }
-            ],
-            "sourceAnchor": 0,
-            "targetAnchor": 32
-          },
-          {
-            "shape": "erdRelation",
-            "relation": "0,n:1",
-            "source": "4056c167",
-            "target": "3e2eb23b",
-            "id": "453e4795",
-            "controlPoints": [
-              {
-                "x": 570.474609375,
-                "y": 472.719696969697
-              },
-              {
-                "x": 424.2041015625,
-                "y": 472.1630434782609
-              }
-            ],
-            "sourceAnchor": 20,
-            "targetAnchor": 1
-          },
-          {
-            "shape": "erdRelation",
-            "relation": "0,n:1",
-            "source": "7792f62e",
-            "target": "3e2eb23b",
-            "id": "bc275ee3",
-            "controlPoints": [
-              {
-                "x": 519.46484375,
-                "y": 732.7236842105264
-              },
-              {
-                "x": 424.2041015625,
-                "y": 472.1630434782609
-              }
-            ],
-            "sourceAnchor": 10,
-            "targetAnchor": 1
           }
         ]
       },
@@ -865,39 +814,6 @@
           "to": {
             "entity": "order",
             "field": "distributorId"
-          }
-        },
-        {
-          "relation": "0,n:1",
-          "from": {
-            "entity": "agent",
-            "field": "agentId"
-          },
-          "to": {
-            "entity": "order",
-            "field": "agentId"
-          }
-        },
-        {
-          "relation": "0,n:1",
-          "from": {
-            "entity": "distributor",
-            "field": "agentId"
-          },
-          "to": {
-            "entity": "agent",
-            "field": "agentId"
-          }
-        },
-        {
-          "relation": "0,n:1",
-          "from": {
-            "entity": "agentAccount",
-            "field": "agentId"
-          },
-          "to": {
-            "entity": "agent",
-            "field": "agentId"
           }
         }
       ]

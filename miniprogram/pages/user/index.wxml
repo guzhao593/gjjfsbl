@@ -1,5 +1,5 @@
 <view>
-  <view wx:if="{{ !isLogin }}" class="login-box">
+  <view wx:if="{{ isLogin }}" class="login-box">
     <view>
       <view class="login-button">
         <van-row>

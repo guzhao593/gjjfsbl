@@ -37,40 +37,46 @@ Page({
   },
 
   scan () {
-    wx.scanCode({
-      success (res) {
-        wx.showToast({
-          title: res,
-        })
-        qrcodeFn();
-        function qrcodeFn() {
-          wx.request({
-            url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx803dbaf7ff67e7fd&secret=小程序密钥',
-            complete: function (tokenRes) {
-              wx.request({
-                url: 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' + tokenRes.data.access_token,
-                method: 'POST',
-                data: {
-                  scene: 1012,
-                  // 是否为Png，默认jpeg
-                  is_hyaline: true,
-                  // 是否自动取色
-                  auto_color: true,
-                  page: 'pages/orderDetails/index',
-                },
-                responseType: 'arraybuffer',
-                complete: function (res) {
-                  // 自动复制到剪切板
-                  wx.setClipboardData({
-                    data: wx.arrayBufferToBase64(res.data),
-                    success(res) { }
-                  })
-                  console.log(wx.arrayBufferToBase64(res.data));
-                },
-              })
-            },
-          });
-        }
+    // wx.scanCode({
+    //   success (res) {
+    //     wx.showToast({
+    //       title: res,
+    //     })
+    //     qrcodeFn();
+    //     function qrcodeFn() {
+    //       wx.request({
+    //         url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx803dbaf7ff67e7fd&secret=小程序密钥',
+    //         complete: function (tokenRes) {
+    //           wx.request({
+    //             url: 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' + tokenRes.data.access_token,
+    //             method: 'POST',
+    //             data: {
+    //               scene: 1012,
+    //               // 是否为Png，默认jpeg
+    //               is_hyaline: true,
+    //               // 是否自动取色
+    //               auto_color: true,
+    //               page: 'pages/orderDetails/index',
+    //             },
+    //             responseType: 'arraybuffer',
+    //             complete: function (res) {
+    //               // 自动复制到剪切板
+    //               wx.setClipboardData({
+    //                 data: wx.arrayBufferToBase64(res.data),
+    //                 success(res) { }
+    //               })
+    //               console.log(wx.arrayBufferToBase64(res.data));
+    //             },
+    //           })
+    //         },
+    //       });
+    //     }
+    //   }
+    // })
+    wx.navigateTo({
+      url: `../orderDetail/index`,
+      success: (res) => {
+        res.eventChannel.emit('acceptDataFromOpenerPage', {})
       }
     })
   }

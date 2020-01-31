@@ -23,8 +23,8 @@ Page({
       detailsInfo: '',
       pictures: [],
       orderState: '',
-      isScanEnter: true
     },
+    isScanEnter: true,
     rules: {
       appointmentName: {
         validator: function (value, cb) {
@@ -94,7 +94,7 @@ Page({
     const eventChannel = this.getOpenerEventChannel()
     eventChannel.on('acceptDataFromOpenerPage', (data) => {
       this.setData({
-        orderForm: data,
+        orderForm: this.data.isScanEnter ? this.data.orderForm : data,
         buttonConfig: [
           {
             show: this.data.isScanEnter,
@@ -233,7 +233,7 @@ Page({
     db.collection('order')
       .add({
         data: {
-          ...ret,
+          ...this.data.orderForm,
           lastUpdateTime: currentDate.getTime(),
           createTime: currentDate.getTime(),
           orderCode,
@@ -291,6 +291,7 @@ Page({
       })
     }
     ui.showLoading(`${stateMap[state || orderState].nextStateName}中...`)
+    console.log(stateMap[state || orderState].nextState, 'state')
     wx.cloud.callFunction({
       name: 'updateOrder',
       data: {
@@ -355,7 +356,7 @@ Page({
       this.setData({
         'buttonLoading.submit': true
       })
-      this.isScanEnter ? this.addOrder() : this.updateOrder()
+      this.data.isScanEnter ? this.addOrder() : this.updateOrder()
     }
   }
 })
