@@ -1,0 +1,123 @@
+<view class="form-box">
+  <form 
+    report-submit="true" 
+    bindsubmit="formSubmit" 
+    bindreset="formReset" 
+    class="form"
+  >
+    <van-field
+      wx:if="{{ !isAdd }}"
+      label="编号"
+      value="{{ form.serviceProviderCode }}"
+      border="{{ true }}"
+      disabled="{{ true }}"
+    />
+    <van-field
+      label="名称"
+      value="{{ form.serviceProviderName }}"
+      id="serviceProviderName"
+      placeholder="请输入名称"
+      border="{{ true }}"
+      required
+      error-message="{{ rules.serviceProviderName.errorMessage }}"
+      bind:change="onChange"
+    />
+    <van-field
+      label="账户"
+      value="{{ form.account }}"
+      id="account"
+      placeholder="请输入账户"
+      border="{{ true }}"
+      required
+      error-message="{{ rules.account.errorMessage }}"
+      bind:change="onChange"
+    />
+    <van-field
+      label="密码"
+      value="{{ form.password }}"
+      id="password"
+      placeholder="请输入密码"
+      border="{{ true }}"
+      required
+      error-message="{{ rules.password.errorMessage }}"
+      bind:change="onChange"
+    />
+    <van-field
+      label="联系人姓名"
+      value="{{ form.serviceProviderContactsName }}"
+      id="serviceProviderContactsName"
+      placeholder="请输入联系人姓名"
+      border="{{ true }}"
+      required
+      error-message="{{ rules.serviceProviderContactsName.errorMessage }}"
+      bind:change="onChange"
+    />
+    <van-field
+      label="手机号码"
+      value="{{ form.serviceProviderMobile }}"
+      id="serviceProviderMobile"
+      placeholder="请输入手机号码"
+      border="{{ true }}"
+      required
+      error-message="{{ rules.serviceProviderMobile.errorMessage }}"
+      bind:change="onChange"
+    />
+    <van-field
+      label="代理区域"
+      value="{{ form.serviceProviderAreaTemp }}"
+      id="serviceProviderAreaTemp"
+      placeholder="请选择代理区域"
+      border="{{ true }}"
+      required
+      readonly
+      error-message="{{ rules.serviceProviderAreaTemp.errorMessage }}"
+      bind:change="onChange"
+      bindtap="showAreaPopup"
+    />
+    <van-popup show="{{ isShowAreaPopup }}" bind:close="onCloseAreaPopup" position="bottom">
+      <van-area 
+        id="serviceProviderArea"
+        area-list="{{ areaList }}" 
+        value="{{ form.serviceProviderArea }}"
+        bind:confirm="onConfirmArea"
+        bind:cancel="onCancelArea"
+      />
+    </van-popup>
+    <van-field
+      label="地址"
+      value="{{ form.serviceProviderAddress }}"
+      id="serviceProviderAddress"
+      placeholder="请输入地址"
+      border="{{ true }}"
+      required
+      error-message="{{ rules.serviceProviderAddress.errorMessage }}"
+      bind:change="onChange"
+    />
+    <view class="uploader-box">
+      <van-cell title="门头图片" value="最多上传6张图片" border="{{ false }}"/>
+      <van-uploader
+        class="uploader"
+        id="serviceProviderStorePictures"
+        file-list="{{ form.serviceProviderStorePictures }}"                                                         
+        max-count="6"
+        preview-size="40px"
+        bind:after-read="afterRead"
+        bind:delete="deletePictures"
+      />
+    </view>
+    <view class="button-box">
+      <view wx:for="{{ buttonConfig }}" wx:key="index">
+        <button                                                          
+          wx:if="{{ item.show }}" 
+          formType="{{ item.formType }}" 
+          type="{{ item.type }}" 
+          data-delete="{{ item.isDelete }}"
+          loading="{{ buttonLoading[item.loading] }}"
+          class="{{ item.class }}"
+          bindtap="deleteOrder"
+        >{{ item.text }}</button>
+      </view>
+    </view>
+  </form>
+  <van-dialog id="van-dialog" />
+</view>

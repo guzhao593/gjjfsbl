@@ -1,0 +1,30 @@
+.form-box {
+  padding: 0 25rpx 25rpx;
+  box-sizing: border-box;
+}
+.button-box {
+  display: flex;
+  justify-content: center;
+  margin-top: 40rpx;
+}
+.submit-button {
+  background-color: #07c160;
+  width: 300rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+}
+.submit-button[type=primary] {
+  background-color: #07c160;
+}
+.cancel-button {
+  margin-left: 20px;
+  width: 300rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+}
+.uploader-box {
+  border-bottom: 1px solid #f5f6f7;
+}
+.uploader {
+  padding: 20px;
+}

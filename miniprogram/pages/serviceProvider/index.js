@@ -1,3 +1,4 @@
+// miniprogram/pages/adminAccount/index.js
 import Dialog from '/@vant/weapp/dialog/dialog';
 const util = require('../../utils/index.js');
 const ui = require('../../utils/ui.js');
@@ -16,7 +17,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad () {
+  onLoad() {
     this.loadData()
   },
   onShow: function () {
@@ -24,11 +25,11 @@ Page({
     if (page.options.reload === 'Y') this.loadData()
   },
 
-  loadData () {
+  loadData() {
     ui.showLoading()
-    db.collection('serviceProviderAccount')
+    db.collection('serviceProvider')
       .where({
-        isMainAccount: 'N'
+        isDelete: 'N'
       })
       .orderBy('lastUpdateTime', 'desc')
       .get({
@@ -39,6 +40,7 @@ Page({
         },
         fail: () => {
           console.log(222)
+
         },
         complete: () => {
           ui.hideLoading()
@@ -46,15 +48,31 @@ Page({
       })
   },
 
-  handleAdd () {
+  viewAccount ({ currentTarget }) {
     wx.navigateTo({
-      url: '../editServiceProviderAccount/index'
+      url: `../editServiceProvider/index?id=${currentTarget.id}`,
+      success: (res) => {
+        // 通过eventChannel向被打开页面传送数据
+        res.eventChannel.emit('acceptDataFromOpenerPage', {
+          ...this.data.accountList.find(item => item.serviceProviderCode === currentTarget.id)
+        })
+      }
+    })
+  },
+
+  handleAdd() {
+    wx.navigateTo({
+      url: `../editServiceProvider/index`,
+      success: (res) => {
+        // 通过eventChannel向被打开页面传送数据
+        res.eventChannel.emit('acceptDataFromOpenerPage', {})
+      }
     })
   },
 
   handleModify({ target }) {
     wx.navigateTo({
-      url: `../editServiceProviderAccount/index?account=${target.id}`
+      url: `../editAdminAccount/index?account=${target.id}`
     })
   },
 
@@ -70,7 +88,7 @@ Page({
       .then(() => {
         ui.showLoading('删除中...')
         wx.cloud.callFunction({
-          name: 'deleteServiceProviderAccount',
+          name: 'deleteAdminAccount',
           data: {
             account: target.id
           },

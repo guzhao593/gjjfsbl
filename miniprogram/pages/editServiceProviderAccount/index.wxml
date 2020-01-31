@@ -1,123 +1,53 @@
-<view class="form-box">
-  <form 
-    report-submit="true" 
-    bindsubmit="formSubmit" 
-    bindreset="formReset" 
-    class="form"
-  >
-    <van-field
-      wx:if="{{ !isAdd }}"
-      label="编号"
-      value="{{ form.serviceProviderCode }}"
-      border="{{ true }}"
-      disabled="{{ true }}"
-    />
-    <van-field
-      label="名称"
-      value="{{ form.serviceProviderName }}"
-      id="serviceProviderName"
-      placeholder="请输入名称"
-      border="{{ true }}"
-      required
-      error-message="{{ rules.serviceProviderName.errorMessage }}"
-      bind:change="onChange"
-    />
+
+<view class="form">
+  <van-cell-group>
     <van-field
       label="账户"
-      value="{{ form.serviceProviderAccount }}"
-      id="serviceProviderAccount"
-      placeholder="请输入账户"
-      border="{{ true }}"
+      value="{{ accountForm.account }}"
+      placeholder="请输入账户名"
+      border="{{ false }}"
       required
-      error-message="{{ rules.serviceProviderAccount.errorMessage }}"
+      disabled="{{ type === 'modify' }}"
+      id="account"
       bind:change="onChange"
     />
     <van-field
+      wx:if="{{ type === 'add' }}"
+      id="password"
       label="密码"
-      value="{{ form.serviceProviderPassword }}"
-      id="serviceProviderPassword"
+      value="{{ accountForm.password }}"
+      type="password"
       placeholder="请输入密码"
-      border="{{ true }}"
+      border="{{ false }}"
       required
-      error-message="{{ rules.serviceProviderPassword.errorMessage }}"
       bind:change="onChange"
     />
     <van-field
-      label="联系人姓名"
-      value="{{ form.serviceProviderContactsName }}"
-      id="serviceProviderContactsName"
-      placeholder="请输入联系人姓名"
-      border="{{ true }}"
+      wx:if="{{ type === 'modify' }}"
+      id="newPassword"
+      label="新密码"
+      value="{{ accountForm.newPassword }}"
+      type="password"
+      placeholder="请输入新密码"
+      border="{{ false }}"
       required
-      error-message="{{ rules.serviceProviderContactsName.errorMessage }}"
       bind:change="onChange"
     />
     <van-field
-      label="手机号码"
-      value="{{ form.serviceProviderMobile }}"
-      id="serviceProviderMobile"
-      placeholder="请输入手机号码"
-      border="{{ true }}"
+      wx:if="{{ type === 'modify' }}"
+      id="confirmPassword"
+      label="确认密码"
+      value="{{ accountForm.confirmPassword }}"
+      type="password"
+      placeholder="请输入确认密码"
+      border="{{ false }}"
       required
-      error-message="{{ rules.serviceProviderMobile.errorMessage }}"
       bind:change="onChange"
     />
-    <van-field
-      label="代理区域"
-      value="{{ form.serviceProviderAreaTemp }}"
-      id="serviceProviderAreaTemp"
-      placeholder="请选择代理区域"
-      border="{{ true }}"
-      required
-      readonly
-      error-message="{{ rules.serviceProviderAreaTemp.errorMessage }}"
-      bind:change="onChange"
-      bindtap="showAreaPopup"
-    />
-    <van-popup show="{{ isShowAreaPopup }}" bind:close="onCloseAreaPopup" position="bottom">
-      <van-area 
-        id="serviceProviderArea"
-        area-list="{{ areaList }}" 
-        value="{{ form.serviceProviderArea }}"
-        bind:confirm="onConfirmArea"
-        bind:cancel="onCancelArea"
-      />
-    </van-popup>
-    <van-field
-      label="地址"
-      value="{{ form.serviceProviderAddress }}"
-      id="serviceProviderAddress"
-      placeholder="请输入地址"
-      border="{{ true }}"
-      required
-      error-message="{{ rules.serviceProviderAddress.errorMessage }}"
-      bind:change="onChange"
-    />
-    <view class="uploader-box">
-      <van-cell title="门头图片" value="最多上传6张图片" border="{{ false }}"/>
-      <van-uploader
-        class="uploader"
-        id="serviceProviderStorePictures"
-        file-list="{{ form.serviceProviderStorePictures }}"                                                         
-        max-count="6"
-        preview-size="40px"
-        bind:after-read="afterRead"
-        bind:delete="deletePictures"
-      />
-    </view>
-    <view class="button-box">
-      <view wx:for="{{ buttonConfig }}" wx:key="index">
-        <button                                                          
-          wx:if="{{ item.show }}" 
-          formType="{{ item.formType }}" 
-          type="{{ item.type }}" 
-          data-delete="{{ item.isDelete }}"
-          loading="{{ buttonLoading[item.loading] }}"
-          class="{{ item.class }}"
-          bindtap="deleteOrder"
-        >{{ item.text }}</button>
-      </view>
-    </view>
-  </form>
-  <van-dialog id="van-dialog" />
+  </van-cell-group>
+  <view class="confirm-box">
+    <van-button type="primary" class="confirm-button" color="#f08519" block round bind:click="handleConfirm">保 存</van-button>
+  </view>
 </view>
+<van-toast id="van-toast" />
+<van-dialog id="van-dialog" />

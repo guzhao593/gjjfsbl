@@ -1,0 +1,28 @@
+
+<view>
+  <view class="account-list-box">
+    <view class="account-header">
+      <view class="account-title account-code-title">编号</view>
+      <view class="account-title account-area-title">地区</view>
+      <view class="account-title account-name-title">名称</view>
+    </view>
+    <view class="account-item-box">
+      <view wx:for="{{ accountList }}" wx:key="index" id="{{ item.serviceProviderCode }}" class="account-list" bindtap="viewAccount">
+        <view class="account-item account-code">{{ item.serviceProviderCode }}</view>
+        <view class="account-item account-area">{{ item.serviceProviderAreaTemp }}</view>
+        <view class="account-item account-name">{{ item.serviceProviderName }}</view>
+      </view>
+    </view>
+  </view>
+  <view class="add-button">
+    <van-button
+      round
+      color="#f08519"
+      icon="plus"
+      block
+      class="add"
+      bind:click="handleAdd"
+    >添加账户</van-button>
+  </view>
+</view>
+<van-dialog id="van-dialog" />

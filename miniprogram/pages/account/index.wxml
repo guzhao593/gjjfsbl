@@ -1,4 +1,5 @@
 <van-cell-group>
   <van-cell icon="todo-list-o" title="系统账户管理" is-link url="../adminAccount/index"/>
-  <van-cell icon="records" title="服务商账户管理" is-link  url="../serviceProviderAccount/index"/>
+  <van-cell icon="records" title="服务商账户管理" is-link  url="../serviceProvider/index"/>
+  <van-cell icon="records" title="子账户管理" is-link  url="../serviceProviderAccount/index"/>
 </van-cell-group>

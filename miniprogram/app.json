@@ -1,9 +1,9 @@
 {
   "pages": [
+    "pages/user/index",
+    "pages/serviceProvider/index",
     "pages/orderList/index",
     "pages/orderDetail/index",
-    "pages/serviceProviderAccount/index",
-    "pages/user/index",
     "pages/adminAccount/index",
     "pages/appointment/index",
     "pages/goods/index",
@@ -11,7 +11,8 @@
     "pages/login/index",
     "pages/account/index",
     "pages/editAdminAccount/index",
-    "pages/editServiceProviderAccount/index"
+    "pages/editServiceProvider/index",
+    "pages/serviceProviderAccount/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

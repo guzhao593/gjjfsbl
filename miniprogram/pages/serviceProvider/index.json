@@ -6,7 +6,7 @@
     "van-field": "/@vant/weapp/field/index",
     "van-icon": "/@vant/weapp/icon/index",
     "van-button": "/@vant/weapp/button/index",
-    "van-toast": "/@vant/weapp/toast/index",
+    "van-image": "/@vant/weapp/image/index",
     "van-dialog": "/@vant/weapp/dialog/index",
     "van-row": "/@vant/weapp/row/index",
     "van-col": "/@vant/weapp/col/index"
