@@ -1,5 +1,7 @@
 {
   "pages": [
+    "pages/serviceNetwork/index",
+    "pages/serviceProviderAccount/index",
     "pages/user/index",
     "pages/serviceProvider/index",
     "pages/orderList/index",
@@ -12,7 +14,7 @@
     "pages/account/index",
     "pages/editAdminAccount/index",
     "pages/editServiceProvider/index",
-    "pages/serviceProviderAccount/index"
+    "pages/editServiceNetwork/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

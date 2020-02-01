@@ -1,0 +1,182 @@
+<view class="form-box">
+  <form 
+    report-submit="true" 
+    bindsubmit="formSubmit" 
+    bindreset="formReset" 
+    class="form"
+  >
+    <van-field
+      wx:if="{{ !isAdd }}"
+      label="编号"
+      value="{{ form.serviceNetworkCode }}"
+      border="{{ true }}"
+      disabled="{{ true }}"
+    />
+    <van-field
+      label="名称"
+      value="{{ form.serviceNetworkName }}"
+      id="serviceNetworkName"
+      placeholder="请输入名称"
+      border="{{ true }}"
+      required
+      error-message="{{ rules.serviceNetworkName.errorMessage }}"
+      bind:change="onChange"
+    />
+    <van-field
+      label="账户"
+      value="{{ form.account }}"
+      id="account"
+      placeholder="请输入账户"
+      border="{{ true }}"
+      required
+      error-message="{{ rules.account.errorMessage }}"
+      bind:change="onChange"
+    />
+    <van-field
+      label="密码"
+      value="{{ form.password }}"
+      id="password"
+      placeholder="请输入密码"
+      border="{{ true }}"
+      required
+      error-message="{{ rules.password.errorMessage }}"
+      bind:change="onChange"
+    />
+    <van-field
+      label="联系人姓名"
+      value="{{ form.serviceNetworkContactsName }}"
+      id="serviceNetworkContactsName"
+      placeholder="请输入联系人姓名"
+      border="{{ true }}"
+      required
+      error-message="{{ rules.serviceNetworkContactsName.errorMessage }}"
+      bind:change="onChange"
+    />
+    <van-field
+      label="手机号码"
+      value="{{ form.serviceNetworkMobile }}"
+      id="serviceNetworkMobile"
+      placeholder="请输入手机号码"
+      border="{{ true }}"
+      required
+      error-message="{{ rules.serviceNetworkMobile.errorMessage }}"
+      bind:change="onChange"
+    />
+    <van-field
+      label="所在地区"
+      value="{{ form.serviceNetworkAreaTemp }}"
+      id="serviceNetworkAreaTemp"
+      placeholder="请选择所在地区"
+      border="{{ true }}"
+      required
+      readonly
+      error-message="{{ rules.serviceNetworkAreaTemp.errorMessage }}"
+      bind:change="onChange"
+      bindtap="showAreaPopup"
+    />
+    <van-popup show="{{ isShowAreaPopup }}" bind:close="onCloseAreaPopup" position="bottom">
+      <van-area 
+        id="serviceNetworkArea"
+        area-list="{{ areaList }}" 
+        value="{{ form.serviceNetworkArea }}"
+        bind:confirm="onConfirmArea"
+        bind:cancel="onCancelArea"
+      />
+    </van-popup>
+    <van-field
+      label="详细地址"
+      value="{{ form.serviceNetworkAddress }}"
+      id="serviceNetworkAddress"
+      placeholder="请输入详细地址"
+      border="{{ true }}"
+      required
+      error-message="{{ rules.serviceNetworkAddress.errorMessage }}"
+      bind:change="onChange"
+    />
+    <van-field
+      label="所属代理商"
+      value="{{ form.serviceProviderName }}"
+      id="serviceProviderName"
+      placeholder="请输入所属代理商"
+      border="{{ true }}"
+      required
+      readonly
+      error-message="{{ rules.serviceProviderName.errorMessage }}"
+      bind:change="onChange"
+    />
+    <van-field
+      label="佣金类型"
+      value="{{ form.comissionTypeText }}"
+      id="comissionTypeText"
+      placeholder="请输入佣金类型"
+      border="{{ true }}"
+      readonly
+      required
+      error-message="{{ rules.comissionTypeText.errorMessage }}"
+      bind:change="onChange"
+      bindtap="showComissionTypePopup"
+    />
+    <van-popup show="{{ isShowComissionTypePopup }}"  bind:close="onCloseComissionTypePopup" position="bottom">
+      <van-picker 
+        columns="{{ commissionTypeList }}" 
+        show-toolbar 
+        default-index="{{ form.comissionType }}"
+        bind:change="handleChangeCommissionType"
+        bind:cancel="onComissionTypeCancel"
+        bind:confirm="onComissionTypeConfirm"
+      />
+    </van-popup>
+    <van-field
+      wx:if="{{ form.comissionType === 0 }}"
+      label="固定佣金"
+      value="{{ form.fixedCommission }}"
+      id="fixedCommission"
+      placeholder="请输入固定佣金"
+      border="{{ true }}"
+      required
+      error-message="{{ rules.fixedCommission.errorMessage }}"
+      bind:change="onChange"
+    >
+      <view slot="right-icon">元</view>
+    </van-field>
+    <van-field
+      wx:if="{{ form.comissionType === 1 }}"
+      label="佣金比例"
+      value="{{ form.commissionRate }}"
+      id="commissionRate"
+      placeholder="请输入佣金比例"
+      border="{{ true }}"
+      required
+      error-message="{{ rules.commissionRate.errorMessage }}"
+      bind:change="onChange"
+    >
+      <view slot="right-icon">%</view>
+    </van-field>
+    <view class="uploader-box">
+      <van-cell title="门头图片" value="最多上传6张图片" border="{{ false }}"/>
+      <van-uploader
+        class="uploader"
+        id="serviceNetworkStorePictures"
+        file-list="{{ form.serviceNetworkStorePictures }}"                                                         
+        max-count="6"
+        preview-size="40px"
+        bind:after-read="afterRead"
+        bind:delete="deletePictures"
+      />
+    </view>
+    <view class="button-box">
+      <view wx:for="{{ buttonConfig }}" wx:key="index">
+        <button                                                          
+          wx:if="{{ item.show }}" 
+          formType="{{ item.formType }}" 
+          type="{{ item.type }}" 
+          data-delete="{{ item.isDelete }}"
+          loading="{{ buttonLoading[item.loading] }}"
+          class="{{ item.class }}"
+          bindtap="deleteOrder"
+        >{{ item.text }}</button>
+      </view>
+    </view>
+  </form>
+  <van-dialog id="van-dialog" />
+</view>
