@@ -91,10 +91,6 @@ Page({
       })
     }
     if (options.q) {
-      Dialog
-        .alert({
-          message: options.q
-        })
       options = this.getOptions(options)
     }
     app.globalData.role = app.globalData.role || 'serviceProvider'
@@ -155,7 +151,7 @@ Page({
   },
 
   getOptions (option) {
-    return decodeURIComponent(option.q).split('&')
+    return decodeURIComponent(option.q).split('?')[1].split('&')
       .reduce((prev, next) => {
         const paramArr = next.split('=')
         return {

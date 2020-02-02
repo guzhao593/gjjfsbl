@@ -164,6 +164,7 @@
         bind:delete="deletePictures"
       />
     </view>
+    
     <view class="button-box">
       <view wx:for="{{ buttonConfig }}" wx:key="index">
         <button                                                          

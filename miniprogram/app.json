@@ -1,7 +1,8 @@
 {
   "pages": [
-    "pages/setUp/index",
     "pages/appointment/index",
+    "pages/genarateQrcode/index",
+    "pages/setUp/index",
     "pages/serviceNetwork/index",
     "pages/serviceProviderAccount/index",
     "pages/user/index",
