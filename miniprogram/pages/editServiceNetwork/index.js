@@ -264,11 +264,11 @@ Page({
 
   addOrder: function () {
     const currentDate = Date.now()
-    db.collection('serviceNetwork')
+    db.collection('serviceNetworkAccount')
       .count()
       .then((res) => {
         const serviceNetworkCode = `000${res.total + 1}`.slice(-4)
-        db.collection('serviceNetwork')
+        db.collection('serviceNetworkAccount')
           .add({
             data: {
               ...this.data.form,

@@ -1,0 +1,15 @@
+/* miniprogram/pages/aboutUs/index.wxss */
+.box {
+  padding: 40rpx 80rpx;
+  box-sizing: border-box;
+}
+.image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.content {
+  padding-top: 40rpx;
+  font-size: 16px;
+  line-height: 64rpx;
+}

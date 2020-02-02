@@ -1,0 +1,20 @@
+<van-cell-group>
+  <van-cell 
+    icon="todo-list-o" 
+    title="修改密码" 
+    is-link 
+    url="../modifyPassword/index"
+  />
+  <van-cell 
+    icon="records" 
+    title="关于我们" 
+    is-link  
+    url="../aboutUs/index"
+  />
+</van-cell-group>
+
+<view class="button-box">
+  <van-button type="primary" color="#f08519" custom-class="logout" round block bind:click="handleLogout">退出登录</van-button>
+</view>
+
+<van-dialog id="van-dialog" />

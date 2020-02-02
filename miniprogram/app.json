@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/setUp/index",
     "pages/appointment/index",
     "pages/serviceNetwork/index",
     "pages/serviceProviderAccount/index",
@@ -14,7 +15,9 @@
     "pages/account/index",
     "pages/editAdminAccount/index",
     "pages/editServiceProvider/index",
-    "pages/editServiceNetwork/index"
+    "pages/editServiceNetwork/index",
+    "pages/modifyPassword/index",
+    "pages/aboutUs/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

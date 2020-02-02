@@ -8,7 +8,7 @@ exports.main = async (event, context) => {
   console.log(event, 'evnt')
   const NOW_DATE = Date.now()
   const { _id, ...ret } = event.form
-  return await db.collection('serviceNetwork')
+  return await db.collection('serviceNetworkAccount')
     .doc(_id)
     .update({
       data: {

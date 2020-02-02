@@ -1,0 +1,12 @@
+<view class="box">
+  <view class="image">
+    <van-image
+      width="250"
+      height="70"
+      src="/images/aboutUsLogo.png"
+    />
+  </view>
+  <view class="content">
+    工匠家防水修缮医院，是工匠家旗下项目，主营：家庭防水、补漏、工程防水修缮！
+  </view>
+</view>

@@ -27,7 +27,7 @@ Page({
 
   loadData() {
     ui.showLoading()
-    db.collection('serviceNetwork')
+    db.collection('serviceNetworkAccount')
       .where({
         isDelete: 'N'
       })
