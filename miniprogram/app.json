@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/appointment/index",
     "pages/serviceNetwork/index",
     "pages/serviceProviderAccount/index",
     "pages/user/index",
@@ -7,7 +8,6 @@
     "pages/orderList/index",
     "pages/orderDetail/index",
     "pages/adminAccount/index",
-    "pages/appointment/index",
     "pages/goods/index",
     "pages/cart/index",
     "pages/login/index",

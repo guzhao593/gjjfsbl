@@ -90,11 +90,23 @@ Page({
         isScanEnter: false
       })
     }
-    app.globalData.role = 'serviceProvider'
+    if (options.q) {
+      Dialog
+        .alert({
+          message: options.q
+        })
+      options = this.getOptions(options)
+    }
+    app.globalData.role = app.globalData.role || 'serviceProvider'
     const eventChannel = this.getOpenerEventChannel()
     eventChannel.on('acceptDataFromOpenerPage', (data) => {
       this.setData({
-        orderForm: this.data.isScanEnter ? this.data.orderForm : data,
+        orderForm: this.data.isScanEnter 
+          ? {
+            ...this.data.orderForm,
+            ...options 
+          }
+          : data,
         buttonConfig: [
           {
             show: this.data.isScanEnter,
@@ -105,7 +117,7 @@ Page({
             loading: 'submit'
           },
           {
-            show: !this.data.isScanEnter && app.globalData.role === 'serviceProvider' && data.orderState === 'appointment',
+            show: !this.data.isScanEnter && app.globalData.role === 'serviceProvider' && data.orderState === ' ',
             text: '接收订单',
             class: 'submit-button',
             formType: 'submit',
@@ -140,6 +152,17 @@ Page({
         ]
       })
     })
+  },
+
+  getOptions (option) {
+    return decodeURIComponent(option.q).split('&')
+      .reduce((prev, next) => {
+        const paramArr = next.split('=')
+        return {
+          ...prev,
+          [paramArr[0]]: paramArr[1]
+        }
+      }, {})
   },
 
   onChange: function ({ target, detail }) {
