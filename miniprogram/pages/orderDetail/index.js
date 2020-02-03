@@ -21,7 +21,11 @@ Page({
       appointmentDate: '',
       appointmentDateTemp: '',
       detailsInfo: '',
+      orderAmount: '',
       pictures: [],
+      contractPictures: [],
+      constructionPictures: [],
+      acceptanceSheetPictures: [],
       orderState: '',
     },
     isScanEnter: true,
@@ -93,9 +97,16 @@ Page({
     if (options.q) {
       options = this.getOptions(options)
     }
+    this.setData({
+      role: app.globalData.role
+    })
     const eventChannel = this.getOpenerEventChannel()
     eventChannel.on('acceptDataFromOpenerPage', (data) => {
       this.setData({
+        showOrderAmout: this.isShowField(data, ['appointment']),
+        showContractPictures: this.isShowField(data, ['appointment']),
+        showConstructionPictures: this.isShowField(data, ['appointment', 'receipting']),
+        showAcceptanceSheetPictures: this.isShowField(data, ['appointment', 'receipting']),
         orderForm: this.data.isScanEnter 
           ? {
             ...this.data.orderForm,
@@ -147,6 +158,10 @@ Page({
         ]
       })
     })
+  },
+
+  isShowField (data, params) {
+    return data.orderState && !params.includes(data.orderState)
   },
 
   getOptions (option) {
@@ -207,8 +222,8 @@ Page({
     this.onCloseAreaPopup()
   },
 
-  afterRead(event) {
-    const { file } = event.detail;
+  afterRead ({ target, detail }) {
+    const { file } = detail;
     const cloudPath = `${Date.now()}.png`;
     ui.showLoading('图片上传中...')
     wx.cloud.uploadFile({
@@ -219,7 +234,7 @@ Page({
           fileList: [ res.fileID ],
           success: data => {
             this.setData({ 
-              'orderForm.pictures': this.data.orderForm.pictures.concat([{ 
+              [`orderForm.${target.id}`]: this.data.orderForm[target.id].concat([{ 
                 url: data.fileList[0].tempFileURL, 
                 fileID: res.fileID
               }])

@@ -107,7 +107,7 @@
       bind:change="onChange"
     />
     <view class="uploader-box">
-      <van-cell title="上传图片" value="最多上传6张图片" border="{{ false }}"/>
+      <van-cell title="现场图片" value="最多上传6张图片" border="{{ false }}"/>
       <van-uploader
         class="uploader"
         id="pictures"
@@ -115,6 +115,58 @@
         max-count="6"
         disabled="{{ !isScanEnter }}"
         deletable="{{ isScanEnter }}"
+        preview-size="40px"
+        bind:after-read="afterRead"
+        bind:delete="deletePictures"
+      />
+    </view>
+    <van-field
+      wx:if="{{ showOrderAmout }}"
+      label="订单金额"
+      value="{{ orderForm.orderAmount }}"
+      id="orderAmount"
+      placeholder="请输入订单金额"
+      disabled="{{ !(role === 'serviceProvider' && orderForm.orderState === 'receipting') }}"
+      border="{{ true }}"
+      bind:change="onChange"
+    />
+    <view class="uploader-box" wx:if="{{ showContractPictures }}">
+      <van-cell title="合同图片" value="最多上传6张图片" border="{{ false }}"/>
+      <van-uploader
+        class="uploader"
+        id="contractPictures"
+        file-list="{{ orderForm.contractPictures }}"                                                         
+        max-count="6"
+        disabled="{{ !(role === 'serviceProvider' && orderForm.orderState === 'receipting') }}"
+        deletable="{{ role === 'serviceProvider' && orderForm.orderState === 'receipting' }}"
+        preview-size="40px"
+        bind:after-read="afterRead"
+        bind:delete="deletePictures"
+      />
+    </view>
+    <view class="uploader-box" wx:if="{{ showConstructionPictures }}">
+      <van-cell title="施工图片" value="最多上传6张图片" border="{{ false }}"/>
+      <van-uploader
+        class="uploader"
+        id="constructionPictures"
+        file-list="{{ orderForm.constructionPictures }}"                                                         
+        max-count="6"
+        disabled="{{ !(role === 'serviceProvider' && orderForm.orderState === 'abuilding') }}"
+        deletable="{{ role === 'serviceProvider' && orderForm.orderState === 'abuilding' }}"
+        preview-size="40px"
+        bind:after-read="afterRead"
+        bind:delete="deletePictures"
+      />
+    </view>
+    <view class="uploader-box" wx:if="{{ showAcceptanceSheetPictures }}">
+      <van-cell title="验收单" value="最多上传6张图片" border="{{ false }}"/>
+      <van-uploader
+        class="uploader"
+        id="acceptanceSheetPictures"
+        file-list="{{ orderForm.acceptanceSheetPictures }}"                                                         
+        max-count="6"
+        disabled="{{ !(role === 'serviceProvider' && orderForm.orderState === 'abuilding') }}"
+        deletable="{{ role === 'serviceProvider' && orderForm.orderState === 'abuilding' }}"
         preview-size="40px"
         bind:after-read="afterRead"
         bind:delete="deletePictures"
