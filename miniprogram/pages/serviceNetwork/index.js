@@ -27,8 +27,10 @@ Page({
 
   loadData() {
     ui.showLoading()
+    const queryParam = this.getQueryParam()
     db.collection('serviceNetworkAccount')
       .where({
+        ...queryParam,
         isDelete: 'N'
       })
       .orderBy('lastUpdateTime', 'desc')
@@ -46,6 +48,18 @@ Page({
           ui.hideLoading()
         }
       })
+  },
+
+  getQueryParam () {
+    const role = app.globalData.role
+    if (role === 'admin') {
+      return {}
+    }
+    if (role === 'serviceProvider') {
+      return {
+        serviceProviderCode: app.globalData.userInfo.serviceProviderCode
+      }
+    }
   },
 
   viewAccount ({ currentTarget }) {
