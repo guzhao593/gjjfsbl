@@ -93,7 +93,6 @@ Page({
     if (options.q) {
       options = this.getOptions(options)
     }
-    app.globalData.role = app.globalData.role || 'serviceProvider'
     const eventChannel = this.getOpenerEventChannel()
     eventChannel.on('acceptDataFromOpenerPage', (data) => {
       this.setData({
@@ -113,7 +112,7 @@ Page({
             loading: 'submit'
           },
           {
-            show: !this.data.isScanEnter && app.globalData.role === 'serviceProvider' && data.orderState === ' ',
+            show: !this.data.isScanEnter && app.globalData.role === 'serviceProvider' && data.orderState === 'appointment',
             text: '接收订单',
             class: 'submit-button',
             formType: 'submit',
