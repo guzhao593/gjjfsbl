@@ -9,16 +9,13 @@ App({
     })
     this.globalData = {
       opendId: '',
-      role: 'customer'
+      role: 'customer',
+      token: ''
     }
     wx.cloud.callFunction({
       name: 'login',
       complete: res => {
         this.globalData.openId = res.result.userInfo.openId
-        // wx.showToast({
-        //   title: res.result.userInfo.openId,
-        //   duration: 15000
-        // })
       }
     })
   }

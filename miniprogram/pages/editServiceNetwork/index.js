@@ -352,7 +352,7 @@ Page({
             },
             success: () => {
               this.setData({
-                qrcodeUrl: this.generateQrcodeUrl(this.data.form)
+                qrcodeUrl: this.generateQrcodeUrl({ ...this.data.form, serviceNetworkCode })
               })
               this.draw('successQrcode')
               this.setData({

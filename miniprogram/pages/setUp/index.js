@@ -22,11 +22,25 @@ Page({
     Dialog.confirm({
         message: '确定要退出登录吗？'
       }).then(() => {
-        app.globalData = {}
+        this.clearLoginInfo()
         wx.reLaunch({
           url: '../user/index'
         })
       })
   },
+
+  clearLoginInfo () {
+    app.globalData = {
+      openId: app.globalData.openId,
+      role: 'custom',
+      isLogin: false,
+      token: '',
+      loginInfo: {}
+    }
+    wx.setStorageSync('token', app.globalData.token)
+    wx.setStorageSync('isLogin', app.globalData.isLogin)
+    wx.setStorageSync('role', app.globalData.role)
+    wx.setStorageSync('loginInfo', app.globalData.loginInfo)
+  }
 
 })

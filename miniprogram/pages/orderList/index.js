@@ -45,6 +45,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.setStorageSync('showToken', wx.getStorageSync('token') || 'noLogin')
     this.loadData(true)
   },
 
@@ -59,28 +60,14 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.getTabBar().init();
-  },
+    this.getTabBar().init()
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
+    const showToken = wx.getStorageSync('showToken')
+    const token = wx.getStorageSync('token') || 'noLogin'
+    if (showToken != token) {
+      this.loadData(true)
+      wx.setStorageSync('showToken', token)
+    }
   },
 
   /**
@@ -88,13 +75,6 @@ Page({
    */
   onReachBottom: function () {
     this.loadMoreCom.loadMore()
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
   },
 
   getAllOrderStateTotal () {
