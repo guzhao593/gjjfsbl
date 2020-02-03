@@ -45,7 +45,7 @@ Page({
     this.data.type ? this.addAcount() : this.modifyAccount()
   },
 
-  addAcount() {
+  addAcount () {
     db.collection('serviceProviderAccount')
       .where({
         account: this.data.accountForm.account
@@ -61,6 +61,7 @@ Page({
             .add({
               data: {
                 ...this.data.accountForm,
+                serviceProviderCode: app.globalData.userInfo.serviceProviderCode,
                 isMainAccount: 'N',
                 createTime: now,
                 lastUpdateTime: now

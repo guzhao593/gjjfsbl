@@ -34,7 +34,7 @@
         src="/images/logo.png"
       />
       <view class="account">
-        账号: {{ loginInfo.account }}
+        账号: {{ userInfo.account }}
       </view>
       <view></view>
       <view></view>
@@ -46,10 +46,10 @@
       <view span="12" class="links turnover-amount">
         成交金额： <span class="color-red">{{ amountTotal }}</span>
       </view>
-      <view span="12" class="links my-commission" wx:if="role === 'serviceNetwork'">
+      <view span="12" class="links my-commission" wx:if="{{ role === 'serviceNetwork' }}">
         我的佣金： <span class="color-red">{{ commissionTotal }}</span>
       </view>
-      <view span="12" class="links my-promotion" wx:if="role === 'serviceNetwork'">
+      <view span="12" class="links my-promotion" wx:if="{{ role === 'serviceNetwork' }}">
         我的推广
       </view>
     </view>
@@ -71,7 +71,7 @@
       />
       <van-cell 
         icon="friends-o"  
-        wx:if="{{ role === 'admin' || role === 'serviceProvider' }}"  
+        wx:if="{{ role === 'admin' || (role === 'serviceProvider' && userInfo.isMainAccount === 'Y') }}"  
         title="账户管理" 
         is-link 
         url="../account/index"

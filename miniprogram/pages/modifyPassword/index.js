@@ -42,7 +42,7 @@ Page({
       data: {
         accountForm: {
           ...this.data.accountForm,
-          account: app.globalData.loginInfo.account
+          account: app.globalData.userInfo.account
         },
         databaseName: app.globalData.role + 'Account'
       },

@@ -45,12 +45,12 @@ Page({
           Toast.success('登录成功')
           app.globalData.role = this.data.loginType
           app.globalData.isLogin =  true
-          app.globalData.loginInfo = data[0]
+          app.globalData.userInfo = data[0]
           app.globalData.token = Date.now()
           wx.setStorageSync('token', app.globalData.token)
           wx.setStorageSync('isLogin', app.globalData.isLogin)
           wx.setStorageSync('role', app.globalData.role)
-          wx.setStorageSync('loginInfo', app.globalData.loginInfo)
+          wx.setStorageSync('userInfo', app.globalData.userInfo)
           wx.reLaunch({
             url: '../user/index',
           })

@@ -77,12 +77,12 @@ Page({
     this.loadMoreCom.loadMore()
   },
 
-  getAllOrderStateTotal () {
+  getAllOrderStateTotal(queryParam) {
     const fucArray = this.data.orderState.map(orderState => {
       return function () {
         return db.collection('order')
           .where({
-            _openid: app.globalData.openId,
+            ...queryParam,
             orderState
           }).count()
       }
@@ -94,8 +94,10 @@ Page({
     if (!this.data.orderConfig[this.data.active].isGet)(
       ui.showLoading('加载中...')
     )
+    const queryParam = this.getQueryParam()
+    console.log(queryParam)
     if (isGetTotal) {
-      const totalArray = await this.getAllOrderStateTotal()
+      const totalArray = await this.getAllOrderStateTotal(queryParam)
       this.data.orderState.forEach((key, index) => {
         this.setData({
           [`orderConfig.${this.data.orderState[index]}.total`]: totalArray[index].total
@@ -106,7 +108,7 @@ Page({
     db.collection('order')
       .orderBy('lastUpdateTime', 'desc')
       .where({
-        _openid: app.globalData.openId,
+        ...queryParam,
         orderState: this.data.active
       })
       .skip((this.data.orderConfig[this.data.active].pageIndex - 1) * PAGE_SIZE)
@@ -128,6 +130,23 @@ Page({
           ui.hideLoading()
         }
       })
+  },
+
+  getQueryParam () {
+    console.log(app.globalData.role, 'app.globalData.role')
+    const queryParamMap = {
+      customer: {
+        _openid: app.globalData.openId
+      },
+      serviceNetwork: {
+        serviceNetworkCode: app.globalData.userInfo.serviceNetworkCode
+      },
+      serviceProvider: {
+        serviceProviderCode: app.globalData.userInfo.serviceProviderCode
+      },
+      admin: {}
+    }
+    return queryParamMap[app.globalData.role]
   },
   
   onChange: function (e) {

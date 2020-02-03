@@ -10,7 +10,8 @@ App({
     this.globalData = {
       opendId: '',
       role: 'customer',
-      token: ''
+      token: '',
+      userInfo: {}
     }
     wx.cloud.callFunction({
       name: 'login',

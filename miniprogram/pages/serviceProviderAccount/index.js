@@ -28,6 +28,7 @@ Page({
     ui.showLoading()
     db.collection('serviceProviderAccount')
       .where({
+        serviceProviderCode: app.globalData.userInfo.serviceProviderCode,
         isMainAccount: 'N'
       })
       .orderBy('lastUpdateTime', 'desc')

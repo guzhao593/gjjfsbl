@@ -5,22 +5,19 @@ Page({
   data: {
     isLogin: false,
     role: '',
-    loginInfo: {}
+    userInfo: {}
   },
-  onLoad () {
+
+  onShow () {
     const { globalData } = app
     this.setData({
       isLogin: globalData.isLogin,
       role: globalData.role,
-      loginInfo: globalData.loginInfo
+      userInfo: globalData.userInfo
     })
-  },
-  onShow () {
     this.getTabBar().init();
   },
-  login () {
 
-  },
   handleLoginType ({ target }) {
     wx.navigateTo({
       url: `../login/index?loginType=${target.id}`,
