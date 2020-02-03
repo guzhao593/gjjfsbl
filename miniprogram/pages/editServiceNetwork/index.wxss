@@ -28,3 +28,16 @@
 .uploader {
   padding: 20px;
 }
+.qrcode-box  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.tips {
+  flex: 100%;
+  text-align: center;
+  font-size: 14px;
+  color: #969799;
+  margin-bottom: 20rpx;
+}

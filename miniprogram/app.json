@@ -1,9 +1,10 @@
 {
   "pages": [
+    "pages/serviceNetwork/index",
+    "pages/editServiceNetwork/index",
     "pages/appointment/index",
     "pages/genarateQrcode/index",
     "pages/setUp/index",
-    "pages/serviceNetwork/index",
     "pages/serviceProviderAccount/index",
     "pages/user/index",
     "pages/serviceProvider/index",
@@ -16,7 +17,6 @@
     "pages/account/index",
     "pages/editAdminAccount/index",
     "pages/editServiceProvider/index",
-    "pages/editServiceNetwork/index",
     "pages/modifyPassword/index",
     "pages/aboutUs/index"
   ],

@@ -1,5 +1,6 @@
 // miniprogram/pages/orderDetail/index.js
 import Dialog from '/@vant/weapp/dialog/dialog';
+import drawQrcode from '../../utils/weapp.qrcode.js'
 const util = require('../../utils/index.js');
 const ui = require('../../utils/ui.js');
 const areaList = require('../../mockdata/area.js')
@@ -11,6 +12,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    showSaveSuccess: false,
+    qrcodeUrl: '',
     areaList: areaList.default,
     form: {
       serviceNetworkName: '',
@@ -114,6 +117,9 @@ Page({
     eventChannel.on('acceptDataFromOpenerPage', async (data) => {
       this.setData({
         form: this.data.isAdd ? this.data.form : data,
+        qrcodeUrl: this.data.isAdd 
+          ? '' 
+          : this.generateQrcodeUrl(data),
         buttonConfig: [
           {
             show: this.data.isAdd,
@@ -142,6 +148,68 @@ Page({
           },
         ]
       })
+      this.draw()
+    })
+  },
+
+  generateQrcodeUrl (data) {
+    return `http://gjjfc666666.gz01.bdysite.com/gjjfsbl?serviceNetworkCode=${data.serviceNetworkCode}&serviceProviderCode=${data.serviceProviderCode}`
+  },
+
+  draw(canvasId) {
+    drawQrcode({
+      width: 160,
+      height: 160,
+      x: 20,
+      y: 20,
+      canvasId: canvasId || 'qrcode',
+      typeNumber: 10,
+      text: this.data.qrcodeUrl,
+      image: {
+        imageResource: '../../images/logo.png',
+        dx: 70,
+        dy: 70,
+        dWidth: 60,
+        dHeight: 60
+      },
+      callback(e) {
+        console.log('e: ', e)
+      }
+    })
+  },
+
+  download({ target }) {
+    // 导出图片
+    wx.canvasToTempFilePath({
+      x: 0,
+      y: 0,
+      width: 300,
+      height: 300,
+      destWidth: 300,
+      destHeight: 300,
+      canvasId: target.id || 'qrcode',
+      success(res) {
+        let tempFilePath = res.tempFilePath
+
+        // 保存到相册
+        wx.saveImageToPhotosAlbum({
+          filePath: tempFilePath,
+          success: function (res) {
+            wx.showToast({
+              title: '保存成功',
+              icon: 'success',
+              duration: 2000
+            })
+          },
+          fail: function (res) {
+            wx.showToast({
+              title: '保存失败',
+              icon: 'none',
+              duration: 2000
+            })
+          }
+        })
+      }
     })
   },
 
@@ -262,6 +330,12 @@ Page({
     })
   },
 
+  confirmSaveSuccess: function () {
+    wx.reLaunch({
+      url: '../serviceNetwork/index',
+    })
+  },
+
   addOrder: function () {
     const currentDate = Date.now()
     db.collection('serviceNetworkAccount')
@@ -277,15 +351,13 @@ Page({
               createTime: currentDate
             },
             success: () => {
-              Dialog
-                .alert({
-                  message: '保存成功！'
-                })
-                .then(() => {
-                  wx.reLaunch({
-                    url: '../serviceNetwork/index',
-                  })
-                })
+              this.setData({
+                qrcodeUrl: this.generateQrcodeUrl(this.data.form)
+              })
+              this.draw('successQrcode')
+              this.setData({
+                showSaveSuccess: true
+              })
             },
             fail: function () {
               Dialog

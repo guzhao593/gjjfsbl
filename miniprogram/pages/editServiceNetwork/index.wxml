@@ -164,6 +164,11 @@
         bind:delete="deletePictures"
       />
     </view>
+
+    <view class="qrcode-box item" wx:if="{{ form.serviceNetworkCode }}">
+      <canvas style="width: 200px; height: 200px;" canvas-id="qrcode" bindlongtap="download"></canvas>
+      <view class="tips">按住保存二维码</view>
+    </view>
     
     <view class="button-box">
       <view wx:for="{{ buttonConfig }}" wx:key="index">
@@ -181,3 +186,14 @@
   </form>
   <van-dialog id="van-dialog" />
 </view>
+<van-dialog
+  use-slot
+  title="保存成功！"
+  show="{{ showSaveSuccess }}"
+  bind:confirm="confirmSaveSuccess"
+>
+  <view class="qrcode-box item">
+    <canvas style="width: 200px; height: 200px;" id="successQrcode" canvas-id="successQrcode" bindlongtap="download"></canvas>
+    <view class="tips">按住保存二维码</view>
+  </view>
+</van-dialog> 

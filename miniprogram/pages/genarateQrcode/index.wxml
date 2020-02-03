@@ -1,19 +1,24 @@
-  
-<!--pages/test/test.wxml-->
-<view class='input-wrapper'>
-    <input bindinput='inputHandler' bindconfirm='confirmHandler' placeholder='输入需要转换为二维码的字符串' value='{{text}}'></input>
+<view class="container">
+  <view class="main">
+    <view class="qrcode item">
+      <canvas style="width: 200px; height: 200px;" canvas-id="myQrcode"></canvas>
+    </view>
+    <view class="input-container item">
+      <input bindinput="bindKeyInput" placeholder="输入转换内容"/>
+      <button type="default" size="{{defaultSize}}" bindtap="changeText">提交</button>
+    </view>
+    <view class="item">
+      <button type="default" size="{{defaultSize}}" bindtap="download">下载</button>
+      <button type="default" size="{{defaultSize}}" bindtap="repaint">设置x,y</button>
+      <button type="default" size="{{defaultSize}}" bindtap="getBase64Data">base64</button>
+    </view>
+    <view class="round left"></view>
+    <view class="round right"></view>
+    <view class="intro item">
+      <view class="title">说明：</view>
+      <view>1. 可自定义canvas宽高。</view>
+      <view>2. 支持修改二维码的计算模式、纠错级别、背景色、前景色。</view>
+      <view>3. 更多详细说明，请参考项目README。</view>
+    </view>
+  </view>
 </view>
-<view class='button-wrapper'>
-    <button bindtap='tapHandler'>转为二维码</button>
-    <button bindtap='test'>test</button>
-</view>
-<canvas class='canvas' style="width:{{qrcodeWidth}}px; height:{{qrcodeWidth}}px;" canvas-id='canvas' bindlongtap='save'></canvas>
-<canvas class='canvas' style="width:{{qrcodeWidth*quality}}px; height:{{qrcodeWidth*quality}}px;" canvas-id='temp'></canvas>
-
-<!-- image显示 -->
-<view class='tip'>长按保存</view>
-
-<view class='line'></view>
-
-<image src='{{imgsrc}}' style="display: block;margin:20rpx auto;width:{{qrcodeWidth}}px; height:{{qrcodeWidth}}px;"></image>
-<view class='tip'>以图片的形式显示</view>

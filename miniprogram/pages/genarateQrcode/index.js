@@ -1,112 +1,145 @@
-const QRCode = require('../../utils/weapp-qrcode.js')
-import rpx2px from '../../utils/rpx2px.js'
-let qrcode;
-
-// 300rpx 在6s上为 150px
-const qrcodeWidth = rpx2px(600)
-const quality = 1
-// let src = '/images/test-w.png'
-// let src = '/images/test1.png'
-let src = '/images/logo.png'
-// let src = '/images/test0.png'
+import drawQrcode from '../../utils/weapp.qrcode.js'
 
 Page({
   data: {
-    text: 'https://github.com/tomfriwel/weapp-qrcode',
-    image: '',
-    // 用于设置wxml里canvas的width和height样式
-    qrcodeWidth,
-    imgsrc: '',
-    quality
+    text: 'https://m.baidu.com',
+    inputValue: ''
   },
-  onLoad: function (options) {
+  onLoad() {
+    this.draw()
   },
-  onReady() {
-    const z = this
-    qrcode = new QRCode('canvas', {
-      usingIn: this, // usingIn 如果放到组件里使用需要加这个参数
-      // text: "https://github.com/tomfriwel/weapp-qrcode",
-      backgroundImage: '/images/qrCodeBg.png',
-      logoImage: '/images/logo.png',
-      width: qrcodeWidth,
-      height: qrcodeWidth,
-      size: qrcodeWidth,
-      colorDark: "lightblue",
-      colorLight: "#ffffff",
-      // autoColor:false,
-      tempCanvasId: 'temp',
-      margin: 10,
-      quality,
-      correctLevel: QRCode.CorrectLevel.H,
-      // backgroundDimming: 'rgba(0,0,0,0)',  // 背景图片遮罩
-    });
-
-    // 生成图片，绘制完成后调用回调
-    qrcode.makeCode(z.data.text, () => {
-      // 回调
-      qrcode.exportImage(function (path) {
-        z.setData({
-          imgsrc: path
-        })
+  changeText(text) {
+    if (!this.data.inputValue) {
+      wx.showModal({
+        title: '提示',
+        content: '请先输入要转换的内容！',
+        showCancel: false
       })
-    })
-  },
-  test() {
-    const z = this
-    qrcode.testMakeCode(z.data.text)
-    // wx.chooseImage({
-    //     count:1,
-    //     sizeType: ['compressed'],
-    //     success: function(res) {
-    //         qrcode.testMakeCode(z.data.text, res.tempFilePaths[0])
-    //     },
-    // })
-  },
-  confirmHandler: function (e) {
-    let {
-      value
-    } = e.detail
-    this.renderCode(value)
-  },
-  renderCode(value) {
-    const z = this
-    console.log('make handler')
-    qrcode.makeCode(value, () => {
-      console.log('make')
-      qrcode.exportImage(function (path) {
-        console.log(path)
-        z.setData({
-          imgsrc: path
-        })
-      })
-    })
-  },
-  inputHandler: function (e) {
-    var value = e.detail.value
+      return
+    }
     this.setData({
-      text: value
+      text: this.data.inputValue
+    })
+    this.draw()
+  },
+  bindKeyInput(e) {
+    this.setData({
+      inputValue: e.detail.value
     })
   },
-  tapHandler: function () {
-    this.renderCode(this.data.text)
+  draw() {
+    drawQrcode({
+      width: 160,
+      height: 160,
+      x: 20,
+      y: 20,
+      canvasId: 'myQrcode',
+      // ctx: wx.createCanvasContext('myQrcode'),
+      typeNumber: 10,
+      text: this.data.text,
+      image: {
+        imageResource: '../../images/logo.png',
+        dx: 70,
+        dy: 70,
+        dWidth: 60,
+        dHeight: 60
+      },
+      callback(e) {
+        console.log('e: ', e)
+      }
+    })
   },
-  // 长按保存
-  save: function () {
-    console.log('save')
-    wx.showActionSheet({
-      itemList: ['保存图片'],
-      success: function (res) {
-        console.log(res.tapIndex)
-        if (res.tapIndex == 0) {
-          qrcode.exportImage(function (path) {
-            wx.saveImageToPhotosAlbum({
-              filePath: path,
-              complete: res => {
-                console.log(res)
-              }
+  repaint() {
+    // 设置二维码起始位置 x,y
+    drawQrcode({
+      width: 160,
+      height: 160,
+      x: 20,
+      y: 20,
+      canvasId: 'myQrcode',
+      typeNumber: 10,
+      text: this.data.text,
+      callback(e) {
+        console.log('e: ', e)
+      }
+    })
+  },
+  download() {
+    // 导出图片
+    wx.canvasToTempFilePath({
+      x: 0,
+      y: 0,
+      width: 300,
+      height: 300,
+      destWidth: 300,
+      destHeight: 300,
+      canvasId: 'myQrcode',
+      success(res) {
+        console.log('图片的临时路径为：', res.tempFilePath)
+        let tempFilePath = res.tempFilePath
+        // 保存图片，获取地址
+        // wx.saveFile({
+        //   tempFilePath,
+        //   success (res) {
+        //     const savedFilePath = res.savedFilePath
+        //     console.log('savedFilePath', savedFilePath)
+        //   }
+        // })
+
+        // 保存到相册
+        wx.saveImageToPhotosAlbum({
+          filePath: tempFilePath,
+          success: function (res) {
+            wx.showToast({
+              title: '保存成功',
+              icon: 'success',
+              duration: 2000
             })
-          })
-        }
+          },
+          fail: function (res) {
+            wx.showToast({
+              title: '保存失败',
+              icon: 'none',
+              duration: 2000
+            })
+          }
+        })
+      }
+    })
+  },
+  getBase64Data() {
+    // 获取二维码 base64 格式
+    wx.canvasToTempFilePath({
+      x: 0,
+      y: 0,
+      width: 300,
+      height: 300,
+      destWidth: 300,
+      destHeight: 300,
+      canvasId: 'myQrcode',
+      success(res) {
+        console.log('图片的临时路径为：', res.tempFilePath)
+        let tempFilePath = res.tempFilePath
+        // 获取 base64
+        wx.getFileSystemManager().readFile({
+          filePath: tempFilePath,
+          encoding: 'base64',
+          success: function (res) {
+            console.log('[base64 data is]', res)
+            wx.showToast({
+              title: '获取成功',
+              icon: 'success',
+              duration: 2000
+            })
+          },
+          fail: function (res) {
+            wx.showToast({
+              title: '获取失败',
+              icon: 'none',
+              duration: 2000
+            })
+          }
+        })
       }
     })
   }

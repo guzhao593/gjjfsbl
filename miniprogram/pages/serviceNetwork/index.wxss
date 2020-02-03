@@ -62,10 +62,10 @@
   flex: 3;
 }
 .account-area {
-  flex: 11;
+  flex: 10;
 }
 .account-name {
-  flex: 10;
+  flex: 11;
 }
 .account-item {
   font-size: 12px;
