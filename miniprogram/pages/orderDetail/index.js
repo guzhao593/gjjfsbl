@@ -12,6 +12,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    showDialog: false,
     areaList: areaList.default,
     orderForm: {
       appointmentName: '',
@@ -352,7 +353,10 @@ Page({
           orderCode,
           orderState: 'appointment'
         },
-        success: function () {
+        success: () => {
+          // this.setData({
+          //   showDialog: true
+          // })
           Dialog
             .alert({
               message: '预约成功！'
@@ -375,6 +379,37 @@ Page({
           })
         }
       })
+  },
+
+  sendTemplateMessage () {
+    wx.cloud.callFunction({
+      name: 'sendTemplate',
+      data: {
+      },
+      success: (res) => {
+        console.log(res, 'sendTemplate')
+      },
+      fail: (err) => {
+        console.log(err, 'err')
+      }
+    })
+  },
+
+  handleSendTemplate () {
+    wx.requestSubscribeMessage({
+      tmplIds: ['lLx88JJ8yv7IaQP66YoToNewg5MDTQAZydw_L9tRO-4'],
+      success: (res) => {
+        this.sendTemplateMessage()
+        wx.reLaunch({
+          url: '../orderList/index',
+        })
+      },
+      fail: (err) => {
+        wx.reLaunch({
+          url: '../orderList/index',
+        })
+      }
+    })
   },
 
   updateOrder: function (state, done) {
@@ -468,7 +503,7 @@ Page({
     }
   },
 
-  formSubmit: function (e) {
+  formSubmit: function ({ detail }) {
     let valid = true                                   
     Object.keys(this.data.rules).forEach(key => {
       this.data.rules[key].validator(this.data.orderForm[key], (message) => {

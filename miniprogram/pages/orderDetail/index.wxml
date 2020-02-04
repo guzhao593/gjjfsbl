@@ -190,4 +190,12 @@
   </form>
   <van-dialog id="van-dialog" />
   <van-toast id="van-toast" />
+  <van-dialog
+    use-slot
+    title="保存成功"
+    show="{{ showDialog }}"
+    show-confirm-button="{{ false }}"
+  >
+    <van-button custom-class="dialog-button" bindtap="handleSendTemplate">订阅消息提醒</van-button>
+  </van-dialog>
 </view>
