@@ -68,7 +68,11 @@ Page({
       orderAmount: {
         validator: function (value, cb, data) {
           if (!data.showOrderAmout) return cb()
-          value ? cb() : cb('请输入订单金额')
+          if (!value) {
+            cb('请输入订单金额')
+          } else {
+            /^[1-9]\d{0,8}$/.test(value) ? cb() : cb('请输入正整数，长度不能超过9位')
+          }
         },
         errorMessage: ''
       },
@@ -273,12 +277,76 @@ Page({
   },
 
   addOrder: function () {
+    db.collection('serviceProvider')
+      .where({
+        serviceProviderCode: this.data.orderForm.serviceProviderCode,
+        isDelete: 'N'
+      })
+      .get({
+        success: (res) => {
+          if (!res.data.length) {
+            return Dialog
+              .alert({
+                message: '未找到对应的服务中心！'
+              })
+          }
+          const serviceProviderInfo = res.data[0]
+          db.collection('serviceNetworkAccount')
+            .where({
+              serviceNetworkCode: this.data.orderForm.serviceNetworkCode,
+              isDelete: 'N'
+            })
+            .get({
+              success: (res) => {
+                if (!res.data.length) {
+                  return Dialog
+                    .alert({
+                      message: '未找到对应的服务网点！'
+                    })
+                }
+                const serviceNetworkInfo = res.data[0]
+                this.submitAllInfo(serviceProviderInfo, serviceNetworkInfo)
+              },
+              fail: () => {
+                this.setData({
+                  'buttonLoading.submit': false
+                })
+                Dialog
+                  .alert({
+                    message: '预约失败， 请重新提交！'
+                  })
+              }
+            })
+        },
+        fail: () => {
+          this.setData({
+            'buttonLoading.submit': false
+          })
+          Dialog
+            .alert({
+              message: '预约失败， 请重新提交！'
+            })
+        }
+      })
+
+  },
+
+  submitAllInfo (serviceProviderInfo, serviceNetworkInfo) {
     const currentDate = new Date()
     const orderCode = `GJJ${util.genarateCode(currentDate)}`
     db.collection('order')
       .add({
         data: {
           ...this.data.orderForm,
+          serviceProviderMobile: serviceProviderInfo.serviceProviderMobile,
+          serviceProviderName: serviceProviderInfo.serviceProviderName,
+          serviceNetworkName: serviceNetworkInfo.serviceProviderName,
+          serviceNetworkMobile: serviceNetworkInfo.serviceNetworkMobile,
+          comissionType: serviceNetworkInfo.comissionType,
+          comissionTypeText: serviceNetworkInfo.comissionTypeText,
+          commissionRate: serviceNetworkInfo.commissionRate,
+          fixedCommission: serviceNetworkInfo.fixedCommission,
+          orderCommission: 0,
           lastUpdateTime: currentDate.getTime(),
           createTime: currentDate.getTime(),
           orderCode,
@@ -337,6 +405,11 @@ Page({
     }
     ui.showLoading(`${stateMap[state || orderState].nextStateName}中...`)
     console.log(stateMap[state || orderState].nextState, 'state')
+    const nextState = stateMap[state || orderState].nextState
+    if (nextState === 'abuilding') {
+      const orderCommission = this.calculateOrderCommission()
+      ret.orderCommission = orderCommission || 0
+    }
     wx.cloud.callFunction({
       name: 'updateOrder',
       data: {
@@ -369,6 +442,16 @@ Page({
         ui.hideLoading()
       }
     })
+  },
+
+  calculateOrderCommission () {
+    const orderForm = this.data.orderForm
+    if (orderForm.comissionType === 0) {
+      return +orderForm.fixedCommission
+    }
+    if (orderForm.comissionType === 1) {
+      return +(orderForm.commissionRate * 0.01 * orderForm.orderAmount).toFixed(1)
+    }
   },
   
   cancelOrder: function ({ currentTarget }) {

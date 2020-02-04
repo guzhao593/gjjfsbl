@@ -87,13 +87,21 @@ Page({
       },
       fixedCommission: {
         validator: (value, cb, form) => {
-          form.comissionType != 0 || value ? cb() : cb('请输入固定佣金')
+          form.comissionType != 0 || value 
+            ? /^[1-9]\d{0,8}$/.test(value) 
+                ? cb() 
+                : cb('请输入正整数，长度不能超过9位')
+            : cb('请输入固定佣金')
         },
         errorMessage: ''
       },
       commissionRate: {
         validator: (value, cb, form) => {
-          form.comissionType != 1 || value ? cb() : cb('请输入佣金比例')
+          form.comissionType != 1 || value 
+            ? /^[1-9]\d{0,1}$/.test(value) 
+              ? cb() 
+              : cb('请输入1~99的正整数')
+            : cb('请输入佣金比例')
         },
         errorMessage: ''
       },
