@@ -52,7 +52,7 @@ Page({
           wx.setStorageSync('role', app.globalData.role)
           wx.setStorageSync('userInfo', app.globalData.userInfo)
           wx.reLaunch({
-            url: '../user/index',
+            url: `../user/index?fromLogin=Y&role=${this.data.loginType}`,
           })
         },
         fail () {
