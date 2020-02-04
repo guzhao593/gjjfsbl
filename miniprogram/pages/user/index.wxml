@@ -49,7 +49,7 @@
       <view span="12" class="links my-commission" wx:if="{{ role === 'serviceNetwork' }}">
         我的佣金： <span class="color-red">{{ commissionTotal }}</span>
       </view>
-      <view span="12" class="links my-promotion" wx:if="{{ role === 'serviceNetwork' }}">
+      <view span="12" class="links my-promotion" wx:if="{{ role === 'serviceNetwork' }}" bindtap="handleShowQrcode">
         我的推广
       </view>
     </view>
@@ -85,3 +85,16 @@
     </van-cell-group>
   </view>
 </view>
+
+<van-dialog
+  use-slot
+  title="我的推广码"
+  show="{{ showQrcode }}"
+  confirm-button-text="关闭"
+  bind:confirm="confirm"
+>
+  <view class="qrcode-box item">
+    <canvas style="width: 200px; height: 200px;" canvas-id="qrcode" bindlongtap="download"></canvas>
+    <view class="tips">长按保存图片分享赚钱</view>
+  </view>
+</van-dialog> 
