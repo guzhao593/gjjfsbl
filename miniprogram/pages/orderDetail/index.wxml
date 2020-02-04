@@ -125,8 +125,10 @@
       label="订单金额"
       value="{{ orderForm.orderAmount }}"
       id="orderAmount"
+      required
       placeholder="请输入订单金额"
       disabled="{{ !(role === 'serviceProvider' && orderForm.orderState === 'receipting') }}"
+      error-message="{{ rules.orderAmount.errorMessage }}"
       border="{{ true }}"
       bind:change="onChange"
     />
@@ -187,4 +189,5 @@
     </view>
   </form>
   <van-dialog id="van-dialog" />
+  <van-toast id="van-toast" />
 </view>

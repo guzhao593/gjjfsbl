@@ -1,5 +1,6 @@
 // miniprogram/pages/orderDetail/index.js
 import Dialog from '/@vant/weapp/dialog/dialog';
+import Toast from '/@vant/weapp/toast/toast';
 const util = require('../../utils/index.js');
 const ui = require('../../utils/ui.js');
 const areaList = require('../../mockdata/area.js')
@@ -54,13 +55,20 @@ Page({
       },
       appointmentAddressDetail: {
         validator: function (value, cb) {
-          value ? cb() : cb('请选择详细地址')
+          value ? cb() : cb('请输入详细地址')
         },
         errorMessage: ''
       },
       appointmentDateTemp: {
         validator: function (value, cb) {
           value ? cb() : cb('请选择预约时间')
+        },
+        errorMessage: ''
+      },
+      orderAmount: {
+        validator: function (value, cb, data) {
+          if (!data.showOrderAmout) return cb()
+          value ? cb() : cb('请输入订单金额')
         },
         errorMessage: ''
       },
@@ -188,7 +196,7 @@ Page({
       this.setData({
         [`rules.${target.id}.errorMessage`]: message || ''
       })
-    })
+    }, this.data)
   },
 
   showDatePopup: function () {
@@ -387,9 +395,18 @@ Page({
         this.setData({
           [`rules.${key}.errorMessage`]: message || ''
         })
-      })
+      }, this.data)
     })
     if (valid) {
+      if (this.data.showContractPictures && !this.data.orderForm.contractPictures.length) {
+        return Toast('请上传合同图片')
+      }
+      if (this.data.showConstructionPictures && !this.data.orderForm.constructionPictures.length) {
+        return Toast('请上传施工图片')
+      }
+      if (this.data.showAcceptanceSheetPictures && !this.data.orderForm.acceptanceSheetPictures.length) {
+        return Toast('请上传验收单')
+      }
       this.setData({
         'buttonLoading.submit': true
       })
