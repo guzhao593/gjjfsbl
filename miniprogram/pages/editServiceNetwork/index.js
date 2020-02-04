@@ -59,7 +59,11 @@ Page({
       },
       serviceNetworkMobile: {
         validator: function (value, cb) {
-          value ? cb() : cb('请输入手机号码')
+          if (!value) {
+            cb('请输入手机号码')
+          } else {
+            /^\d{11}$/.test(value) ? cb() : cb('请输入正确的手机号码')
+          }
         },
         errorMessage: ''
       },
