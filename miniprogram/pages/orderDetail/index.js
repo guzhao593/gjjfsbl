@@ -445,6 +445,7 @@ Page({
       const orderCommission = this.calculateOrderCommission()
       ret.orderCommission = orderCommission || 0
     }
+    console.log(stateMap[state || orderState].nextState, 'nextState')
     wx.cloud.callFunction({
       name: 'updateOrder',
       data: {
