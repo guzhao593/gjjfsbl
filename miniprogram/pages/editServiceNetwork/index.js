@@ -87,7 +87,8 @@ Page({
       },
       fixedCommission: {
         validator: (value, cb, form) => {
-          form.comissionType != 0 || value 
+          if (form.comissionType != 0) return cb()
+          value 
             ? /^[1-9]\d{0,8}$/.test(value) 
                 ? cb() 
                 : cb('请输入正整数，长度不能超过9位')
@@ -97,7 +98,8 @@ Page({
       },
       commissionRate: {
         validator: (value, cb, form) => {
-          form.comissionType != 1 || value 
+          if (form.comissionType != 1) return cb()
+          value 
             ? /^[1-9]\d{0,1}$/.test(value) 
               ? cb() 
               : cb('请输入1~99的正整数')
@@ -349,6 +351,7 @@ Page({
   },
 
   addOrder: function () {
+    console.log('add, add')
     const currentDate = Date.now()
     db.collection('serviceNetworkAccount')
       .count()
@@ -444,6 +447,7 @@ Page({
     Object.keys(this.data.rules).forEach(key => {
       this.data.rules[key].validator(this.data.form[key], (message) => {
         if (message && valid) {
+          console.log(message, 'message')
           valid = false
         }
         this.setData({
@@ -458,6 +462,7 @@ Page({
           message: '所在地区没有代理商'
         })
     }
+    console.log(valid, 'valid')
     
     if (valid) {
       console.log(valid, 'valid')
